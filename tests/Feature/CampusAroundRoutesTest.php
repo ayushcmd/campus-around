@@ -244,6 +244,38 @@ class CampusAroundRoutesTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('WHERE DO YOU WANT TO GO?');
+        $response->assertSee('locate-dest-data');
+        $response->assertSee('Central Library');
+    }
+
+    public function test_locate_page_supports_preselection_by_id_and_slug(): void
+    {
+        $responseBySlug = $this->get('/locate?start=main-entrance&destination=bihari-thaath-restaurant');
+        $responseBySlug->assertStatus(200);
+        $responseBySlug->assertSee('Main Entrance (Gate 1)');
+        $responseBySlug->assertSee('Bihari Thaath');
+
+        $responseById = $this->get('/locate?start=iitp-main-entrance&destination=out-bihari-thaath');
+        $responseById->assertStatus(200);
+        $responseById->assertSee('Main Entrance (Gate 1)');
+        $responseById->assertSee('Bihari Thaath');
+    }
+
+    public function test_locate_page_embeds_verified_datasets_and_on_demand_privacy_dialog(): void
+    {
+        $response = $this->get('/locate');
+
+        $response->assertStatus(200);
+        $response->assertSee('locate-inside-data');
+        $response->assertSee('locate-outside-data');
+        $response->assertSee('Use Current Location?');
+        $response->assertSee('never stored on any server', false);
+        $response->assertSee('Recenter');
+        $response->assertSee('OpenStreetMap');
+        $response->assertSee('OSRM Engine');
+        $response->assertSee('Driving');
+        $response->assertSee('Walking');
+        $response->assertSee('Cycling');
     }
 
     public function test_place_details_page_loads_with_source_attribution(): void

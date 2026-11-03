@@ -49,13 +49,24 @@
 
                 <!-- Right: Navigate Button -->
                 <div class="flex items-center">
-                    <a href="{{ route('locate') }}" 
-                       class="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-extrabold bg-[#082D00] text-[#9BE96B] hover:bg-[#134504] active:scale-95 transition-all shadow-sm">
-                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="3 11 22 2 13 21 11 13 3 11"/>
-                        </svg>
-                        <span>Navigate</span>
-                    </a>
+                    @if(request()->routeIs('locate'))
+                        <a href="#locate-controls" 
+                           onclick="document.getElementById('locate-controls')?.scrollIntoView({ behavior: 'smooth' }); return false;"
+                           class="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-extrabold bg-[#082D00] text-[#9BE96B] hover:bg-[#134504] active:scale-95 transition-all shadow-sm">
+                            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+                            </svg>
+                            <span>Navigate</span>
+                        </a>
+                    @else
+                        <a href="{{ route('locate') }}" 
+                           class="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-extrabold bg-[#082D00] text-[#9BE96B] hover:bg-[#134504] active:scale-95 transition-all shadow-sm">
+                            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+                            </svg>
+                            <span>Navigate</span>
+                        </a>
+                    @endif
                 </div>
 
             </div>
@@ -156,7 +167,7 @@
 
                         <!-- Locate -->
                         <a href="{{ route('locate') }}" 
-                           @click="navDrawerOpen = false"
+                           @click="navDrawerOpen = false; if ('{{ $currentRoute }}' === 'locate') { document.getElementById('locate-controls')?.scrollIntoView({ behavior: 'smooth' }); }"
                            class="group flex items-center gap-3 px-3 py-2.5 rounded-2xl transition-all {{ $currentRoute === 'locate' ? 'bg-[#9BE96B] text-[#082D00] font-black shadow-2xs' : 'text-[#082D00] hover:bg-[#F7F7F2]' }}">
                             <span class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 {{ $currentRoute === 'locate' ? 'bg-[#082D00] text-[#9BE96B]' : 'bg-[#F7F7F2] text-[#082D00] group-hover:bg-[#9BE96B]' }}">
                                 <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

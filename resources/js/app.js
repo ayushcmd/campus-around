@@ -17,11 +17,17 @@ L.Icon.Default.mergeOptions({
 
 // Helper for rendering Lucide icons whenever content updates
 window.renderIcons = () => {
-    lucide.createIcons();
+    if (lucide && typeof lucide.createIcons === 'function') {
+        try {
+            lucide.createIcons({ icons: lucide.icons });
+        } catch (e) {
+            console.debug('Lucide render note:', e);
+        }
+    }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    lucide.createIcons();
+    window.renderIcons();
 });
 
 // Start Alpine

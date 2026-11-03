@@ -62,8 +62,8 @@ class PlaceController extends Controller
         $startSlug = $request->query('start');
         $destSlug = $request->query('destination');
 
-        $initialStart = $startSlug ? PlaceRepository::findPlaceBySlug($startSlug) : null;
-        $initialDest = $destSlug ? PlaceRepository::findPlaceBySlug($destSlug) : null;
+        $initialStart = $startSlug ? (PlaceRepository::findPlaceBySlug($startSlug) ?? PlaceRepository::findPlaceById($startSlug)) : null;
+        $initialDest = $destSlug ? (PlaceRepository::findPlaceBySlug($destSlug) ?? PlaceRepository::findPlaceById($destSlug)) : null;
 
         return view('pages.locate', [
             'insidePlaces' => $insidePlaces,
