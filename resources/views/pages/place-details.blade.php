@@ -47,11 +47,15 @@
                     </div>
 
                     <!-- Main Hero Image -->
-                    <div class="relative w-full h-[320px] sm:h-[420px] rounded-3xl overflow-hidden border border-[#E5E7E1] shadow-sm bg-neutral-100">
-                        <img src="{{ $place['image'] }}" 
-                             alt="{{ $place['name'] }}" 
-                             class="w-full h-full object-cover">
-                        <div class="absolute bottom-4 left-4">
+                    <div class="relative w-full h-[320px] sm:h-[420px] rounded-3xl overflow-hidden border border-[#E5E7E1] shadow-sm bg-[#082D00]">
+                        <x-place-image 
+                            :image="$place['image'] ?? null" 
+                            :name="$place['name']" 
+                            :category="$place['category']" 
+                            :category-id="$place['category_id'] ?? 'academic'" 
+                            img-class="w-full h-full object-cover"
+                        />
+                        <div class="absolute bottom-4 left-4 z-20">
                             <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/75 text-white text-xs font-bold backdrop-blur-xs">
                                 <svg class="w-3.5 h-3.5 text-[#9BE96B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
                                 {{ $place['address'] ?? $place['campus_area'] }}
@@ -133,13 +137,23 @@
                     </div>
 
                     <!-- Mini Map Card -->
-                    <div class="bg-white rounded-3xl p-4 border border-[#E5E7E1] shadow-sm">
-                        <div class="flex items-center justify-between mb-3 px-2">
-                            <span class="text-xs font-bold uppercase tracking-wider text-[#082D00]">Spot Location</span>
-                            <span class="text-[11px] text-[#64705D]">{{ $place['latitude'] }}°N, {{ $place['longitude'] }}°E</span>
+                    @if(!empty($place['latitude']) && !empty($place['longitude']))
+                        <div class="bg-white rounded-3xl p-4 border border-[#E5E7E1] shadow-sm">
+                            <div class="flex items-center justify-between mb-3 px-2">
+                                <span class="text-xs font-bold uppercase tracking-wider text-[#082D00]">Spot Location</span>
+                                <span class="text-[11px] text-[#64705D]">{{ $place['latitude'] }}°N, {{ $place['longitude'] }}°E</span>
+                            </div>
+                            <div id="place-detail-map" class="w-full h-56 rounded-2xl overflow-hidden border border-[#E5E7E1] z-10"></div>
                         </div>
-                        <div id="place-detail-map" class="w-full h-56 rounded-2xl overflow-hidden border border-[#E5E7E1] z-10"></div>
-                    </div>
+                    @else
+                        <div class="bg-white rounded-3xl p-6 border border-[#E5E7E1] shadow-sm text-center">
+                            <span class="w-10 h-10 mx-auto rounded-2xl bg-[#F7F7F2] text-[#64705D] flex items-center justify-center mb-2 border border-[#E5E7E1]">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                            </span>
+                            <h4 class="text-xs font-black uppercase tracking-wider text-[#082D00]">GPS Coordinates Unsurveyed</h4>
+                            <p class="text-xs text-[#64705D] mt-1">Exact satellite coordinates are not yet independently confirmed for this location.</p>
+                        </div>
+                    @endif
 
                 </div>
 
@@ -170,6 +184,7 @@
     </div>
 
     <!-- Mini map initialization -->
+    @if(!empty($place['latitude']) && !empty($place['longitude']))
     @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -217,4 +232,5 @@
         });
     </script>
     @endpush
+    @endif
 </x-app-layout>

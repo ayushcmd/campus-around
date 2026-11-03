@@ -44,13 +44,38 @@ class CampusAroundRoutesTest extends TestCase
         $response = $this->get('/inside');
 
         $response->assertStatus(200);
-        $response->assertSee('INSIDE TOUR');
+        $response->assertSee('INSIDE CAMPUS');
+        $response->assertSee('EXPLORE YOUR CAMPUS.');
         $response->assertSee('Central Library');
-        $response->assertSee('Tutorial');
         $response->assertSee('Block IX');
         $response->assertSee('Aryabhatta');
-        $response->assertSee('Verified');
+        $response->assertSee('Kalam Hostel');
+        $response->assertSee('Main Entrance');
         $response->assertSee('inside-campus-map');
+    }
+
+    public function test_inside_tour_dataset_is_verified_and_deduplicated(): void
+    {
+        $places = \App\Services\PlaceRepository::getInsidePlaces();
+        $categories = \App\Services\PlaceRepository::getInsideCategories();
+
+        $this->assertGreaterThanOrEqual(37, count($places));
+
+        // Deduplication: exactly one Auditorium record
+        $auditoriums = array_filter($places, fn($p) => $p['id'] === 'iitp-main-auditorium');
+        $this->assertCount(1, $auditoriums);
+
+        // Every place has source attribution and verification status
+        foreach ($places as $place) {
+            $this->assertArrayHasKey('source', $place);
+            $this->assertStringContainsString('IIT Patna', $place['source']);
+            $this->assertStringContainsString('Verified', $place['verification_status']);
+        }
+
+        // Dynamic categories have correct non-zero counts
+        foreach ($categories as $cat) {
+            $this->assertGreaterThan(0, $cat['count']);
+        }
     }
 
     public function test_outside_tour_page_loads_with_real_nearby_spots(): void
