@@ -1,0 +1,48 @@
+@import 'tailwindcss';
+@import 'leaflet/dist/leaflet.css';
+
+@theme {
+    --color-brand-lime: #9BE96B;
+    --color-brand-lime-hover: #8AE157;
+    --color-brand-forest: #082D00;
+    --color-brand-forest-light: #134504;
+    --color-brand-forest-muted: #1c570b;
+    --color-brand-warm: #F7F7F2;
+    --color-brand-warm-dark: #EFEFE9;
+    --color-brand-secondary: #64705D;
+    --color-brand-border: #E5E7E1;
+    --color-brand-border-dark: #D4D8CF;
+    
+    --font-sans: 'Inter', 'Manrope', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+:root {
+    --brand-lime: #9BE96B;
+    --brand-forest: #082D00;
+    --brand-warm: #F7F7F2;
+    --brand-secondary: #64705D;
+    --brand-border: #E5E7E1;
+}
+
+/* Base typography & smooth behavior */
+html {
+    scroll-behavior: smooth;
+    background-color: #F7F7F2;
+    color: #082D00;
+}
+
+/* Leaflet map customizations */
+.leaflet-popup-content-wrapper {
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px -5px rgba(8, 45, 0, 0.12), 0 8px 10px -6px rgba(8, 45, 0, 0.08);
+    border: 1px solid #E5E7E1;
+    padding: 4px;
+}
+.leaflet-popup-content {
+    margin: 12px 14px;
+    font-family: inherit;
+}
+.leaflet-container {
+    font-family: inherit;
+    z-index: 10;
+}
