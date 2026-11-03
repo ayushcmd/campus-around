@@ -127,99 +127,155 @@
                 </button>
             </div>
 
-            <!-- Drawer Section: The 4 Primary Discovery Options -->
-            <div class="p-6 space-y-2">
-                <div class="text-[11px] font-black uppercase tracking-widest text-[#64705D] px-2 mb-3">
-                    Core Discovery Tours
+            <!-- Drawer Navigation Sections -->
+            <div class="p-5 space-y-6">
+                
+                <!-- Section 1: Discovery -->
+                <div>
+                    <div class="text-[10px] font-black uppercase tracking-widest text-[#64705D] px-2 mb-2">
+                        Discovery
+                    </div>
+                    <div class="space-y-1">
+                        <!-- Inside Tour -->
+                        <a href="{{ route('inside') }}" 
+                           @click="navDrawerOpen = false"
+                           class="group flex items-center gap-3 px-3 py-2.5 rounded-2xl transition-all {{ $currentRoute === 'inside' ? 'bg-[#9BE96B] text-[#082D00] font-black shadow-2xs' : 'text-[#082D00] hover:bg-[#F7F7F2]' }}">
+                            <span class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 {{ $currentRoute === 'inside' ? 'bg-[#082D00] text-[#9BE96B]' : 'bg-[#F7F7F2] text-[#082D00] group-hover:bg-[#9BE96B]' }}">
+                                <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect width="16" height="20" x="4" y="2" rx="2" ry="2"/>
+                                    <path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/>
+                                </svg>
+                            </span>
+                            <div>
+                                <span class="font-bold text-sm block leading-tight">Inside Tour</span>
+                                <span class="text-[11px] text-[#64705D] block leading-tight">Campus facilities & academic zones</span>
+                            </div>
+                        </a>
+
+                        <!-- Outside Tour -->
+                        <a href="{{ route('outside') }}" 
+                           @click="navDrawerOpen = false"
+                           class="group flex items-center gap-3 px-3 py-2.5 rounded-2xl transition-all {{ $currentRoute === 'outside' ? 'bg-[#9BE96B] text-[#082D00] font-black shadow-2xs' : 'text-[#082D00] hover:bg-[#F7F7F2]' }}">
+                            <span class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 {{ $currentRoute === 'outside' ? 'bg-[#082D00] text-[#9BE96B]' : 'bg-[#F7F7F2] text-[#082D00] group-hover:bg-[#9BE96B]' }}">
+                                <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/>
+                                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/>
+                                </svg>
+                            </span>
+                            <div>
+                                <span class="font-bold text-sm block leading-tight">Outside Tour</span>
+                                <span class="text-[11px] text-[#64705D] block leading-tight">Nearby dhabas, cafes & transit</span>
+                            </div>
+                        </a>
+
+                        <!-- Locate -->
+                        <a href="{{ route('locate') }}" 
+                           @click="navDrawerOpen = false"
+                           class="group flex items-center gap-3 px-3 py-2.5 rounded-2xl transition-all {{ $currentRoute === 'locate' ? 'bg-[#9BE96B] text-[#082D00] font-black shadow-2xs' : 'text-[#082D00] hover:bg-[#F7F7F2]' }}">
+                            <span class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 {{ $currentRoute === 'locate' ? 'bg-[#082D00] text-[#9BE96B]' : 'bg-[#F7F7F2] text-[#082D00] group-hover:bg-[#9BE96B]' }}">
+                                <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+                                </svg>
+                            </span>
+                            <div>
+                                <span class="font-bold text-sm block leading-tight">Locate & Route</span>
+                                <span class="text-[11px] text-[#64705D] block leading-tight">Walking and transit directions</span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
 
-                <!-- 1. Inside Tour -->
-                <a href="{{ route('inside') }}" 
-                   @click="navDrawerOpen = false"
-                   class="group flex items-start gap-4 p-3.5 rounded-2xl transition-all duration-150 {{ $currentRoute === 'inside' ? 'bg-[#9BE96B] text-[#082D00] font-black shadow-xs' : 'text-[#082D00] hover:bg-[#F7F7F2]' }}">
-                    <span class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors {{ $currentRoute === 'inside' ? 'bg-[#082D00] text-[#9BE96B]' : 'bg-[#F7F7F2] text-[#082D00] group-hover:bg-[#9BE96B]' }}">
-                        <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect width="16" height="20" x="4" y="2" rx="2" ry="2"/>
-                            <path d="M9 22v-4h6v4"/>
-                            <path d="M8 6h.01"/>
-                            <path d="M16 6h.01"/>
-                            <path d="M8 10h.01"/>
-                            <path d="M16 10h.01"/>
-                        </svg>
-                    </span>
-                    <div>
-                        <span class="font-extrabold text-base tracking-tight block leading-snug">Inside Tour</span>
-                        <span class="text-xs text-[#64705D] block mt-0.5 font-medium leading-tight">Explore campus buildings, facilities, and student spaces.</span>
+                <!-- Section 2: Community -->
+                <div class="pt-4 border-t border-[#E5E7E1]">
+                    <div class="text-[10px] font-black uppercase tracking-widest text-[#64705D] px-2 mb-2">
+                        Community
                     </div>
-                </a>
+                    <div class="space-y-1">
+                        <!-- Contribute a Place -->
+                        <a href="{{ route('contribute') }}" 
+                           @click="navDrawerOpen = false"
+                           class="group flex items-center gap-3 px-3 py-2.5 rounded-2xl transition-all {{ $currentRoute === 'contribute' ? 'bg-[#9BE96B] text-[#082D00] font-black shadow-2xs' : 'text-[#082D00] hover:bg-[#F7F7F2]' }}">
+                            <span class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 {{ $currentRoute === 'contribute' ? 'bg-[#082D00] text-[#9BE96B]' : 'bg-[#F7F7F2] text-[#082D00] group-hover:bg-[#9BE96B]' }}">
+                                <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/>
+                                </svg>
+                            </span>
+                            <div>
+                                <span class="font-bold text-sm block leading-tight">Contribute a Place</span>
+                                <span class="text-[11px] text-[#64705D] block leading-tight">Suggest missing shops, photos & menus</span>
+                            </div>
+                        </a>
 
-                <!-- 2. Outside Tour -->
-                <a href="{{ route('outside') }}" 
-                   @click="navDrawerOpen = false"
-                   class="group flex items-start gap-4 p-3.5 rounded-2xl transition-all duration-150 {{ $currentRoute === 'outside' ? 'bg-[#9BE96B] text-[#082D00] font-black shadow-xs' : 'text-[#082D00] hover:bg-[#F7F7F2]' }}">
-                    <span class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors {{ $currentRoute === 'outside' ? 'bg-[#082D00] text-[#9BE96B]' : 'bg-[#F7F7F2] text-[#082D00] group-hover:bg-[#9BE96B]' }}">
-                        <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/>
-                            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
-                            <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/>
-                        </svg>
-                    </span>
-                    <div>
-                        <span class="font-extrabold text-base tracking-tight block leading-snug">Outside Tour</span>
-                        <span class="text-xs text-[#64705D] block mt-0.5 font-medium leading-tight">Discover nearby food, cafes, shops, and useful services.</span>
+                        <!-- Community Guidelines -->
+                        <a href="{{ route('about') }}#guidelines" 
+                           @click="navDrawerOpen = false"
+                           class="group flex items-center gap-3 px-3 py-2.5 rounded-2xl transition-all text-[#082D00] hover:bg-[#F7F7F2]">
+                            <span class="w-8 h-8 rounded-xl bg-[#F7F7F2] text-[#082D00] flex items-center justify-center shrink-0 group-hover:bg-[#9BE96B]">
+                                <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+                                </svg>
+                            </span>
+                            <div>
+                                <span class="font-bold text-sm block leading-tight">Community Guidelines</span>
+                                <span class="text-[11px] text-[#64705D] block leading-tight">Verification rules & student safety</span>
+                            </div>
+                        </a>
                     </div>
-                </a>
-
-                <!-- 3. Locate -->
-                <a href="{{ route('locate') }}" 
-                   @click="navDrawerOpen = false"
-                   class="group flex items-start gap-4 p-3.5 rounded-2xl transition-all duration-150 {{ $currentRoute === 'locate' ? 'bg-[#9BE96B] text-[#082D00] font-black shadow-xs' : 'text-[#082D00] hover:bg-[#F7F7F2]' }}">
-                    <span class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors {{ $currentRoute === 'locate' ? 'bg-[#082D00] text-[#9BE96B]' : 'bg-[#F7F7F2] text-[#082D00] group-hover:bg-[#9BE96B]' }}">
-                        <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="3 11 22 2 13 21 11 13 3 11"/>
-                        </svg>
-                    </span>
-                    <div>
-                        <span class="font-extrabold text-base tracking-tight block leading-snug">Locate</span>
-                        <span class="text-xs text-[#64705D] block mt-0.5 font-medium leading-tight">Choose a destination and explore your route.</span>
-                    </div>
-                </a>
-
-                <!-- 4. Contribute -->
-                <a href="{{ route('contribute') }}" 
-                   @click="navDrawerOpen = false"
-                   class="group flex items-start gap-4 p-3.5 rounded-2xl transition-all duration-150 {{ $currentRoute === 'contribute' ? 'bg-[#9BE96B] text-[#082D00] font-black shadow-xs' : 'text-[#082D00] hover:bg-[#F7F7F2]' }}">
-                    <span class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors {{ $currentRoute === 'contribute' ? 'bg-[#082D00] text-[#9BE96B]' : 'bg-[#F7F7F2] text-[#082D00] group-hover:bg-[#9BE96B]' }}">
-                        <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"/>
-                            <path d="M8 12h8"/>
-                            <path d="M12 8v8"/>
-                        </svg>
-                    </span>
-                    <div>
-                        <span class="font-extrabold text-base tracking-tight block leading-snug">Contribute</span>
-                        <span class="text-xs text-[#64705D] block mt-0.5 font-medium leading-tight">Share a useful place with the campus community.</span>
-                    </div>
-                </a>
-            </div>
-
-            <!-- Secondary Links -->
-            <div class="px-6 py-4 border-t border-[#E5E7E1] space-y-1">
-                <div class="text-[11px] font-black uppercase tracking-widest text-[#64705D] px-2 mb-2">
-                    Directory & Info
                 </div>
-                <a href="{{ route('explore') }}" 
-                   @click="navDrawerOpen = false"
-                   class="flex items-center justify-between px-3 py-2.5 rounded-xl font-bold text-sm text-[#082D00] hover:bg-[#F7F7F2] transition-colors">
-                    <span>Directory Index</span>
-                    <span class="text-xs text-[#64705D] font-normal">All Places</span>
-                </a>
-                <a href="{{ route('about') }}" 
-                   @click="navDrawerOpen = false"
-                   class="flex items-center justify-between px-3 py-2.5 rounded-xl font-bold text-sm text-[#082D00] hover:bg-[#F7F7F2] transition-colors">
-                    <span>About CampusAround</span>
-                    <span class="text-xs text-[#64705D] font-normal">Our Story</span>
-                </a>
+
+                <!-- Section 3: Information -->
+                <div class="pt-4 border-t border-[#E5E7E1]">
+                    <div class="text-[10px] font-black uppercase tracking-widest text-[#64705D] px-2 mb-2">
+                        Information
+                    </div>
+                    <div class="space-y-1">
+                        <!-- About -->
+                        <a href="{{ route('about') }}" 
+                           @click="navDrawerOpen = false"
+                           class="group flex items-center gap-3 px-3 py-2.5 rounded-2xl transition-all {{ $currentRoute === 'about' ? 'bg-[#9BE96B] text-[#082D00] font-black shadow-2xs' : 'text-[#082D00] hover:bg-[#F7F7F2]' }}">
+                            <span class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 {{ $currentRoute === 'about' ? 'bg-[#082D00] text-[#9BE96B]' : 'bg-[#F7F7F2] text-[#082D00] group-hover:bg-[#9BE96B]' }}">
+                                <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                                </svg>
+                            </span>
+                            <div>
+                                <span class="font-bold text-sm block leading-tight">About CampusAround</span>
+                                <span class="text-[11px] text-[#64705D] block leading-tight">Our mission & IIT Patna edition</span>
+                            </div>
+                        </a>
+
+                        <!-- Contact -->
+                        <a href="{{ route('contact') }}" 
+                           @click="navDrawerOpen = false"
+                           class="group flex items-center gap-3 px-3 py-2.5 rounded-2xl transition-all {{ $currentRoute === 'contact' ? 'bg-[#9BE96B] text-[#082D00] font-black shadow-2xs' : 'text-[#082D00] hover:bg-[#F7F7F2]' }}">
+                            <span class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 {{ $currentRoute === 'contact' ? 'bg-[#082D00] text-[#9BE96B]' : 'bg-[#F7F7F2] text-[#082D00] group-hover:bg-[#9BE96B]' }}">
+                                <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                                </svg>
+                            </span>
+                            <div>
+                                <span class="font-bold text-sm block leading-tight">Contact</span>
+                                <span class="text-[11px] text-[#64705D] block leading-tight">Direct project email & assistance</span>
+                            </div>
+                        </a>
+
+                        <!-- Feedback -->
+                        <a href="{{ route('contact', ['type' => 'feedback']) }}" 
+                           @click="navDrawerOpen = false"
+                           class="group flex items-center gap-3 px-3 py-2.5 rounded-2xl transition-all text-[#082D00] hover:bg-[#F7F7F2]">
+                            <span class="w-8 h-8 rounded-xl bg-[#F7F7F2] text-[#082D00] flex items-center justify-center shrink-0 group-hover:bg-[#9BE96B]">
+                                <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                </svg>
+                            </span>
+                            <div>
+                                <span class="font-bold text-sm block leading-tight">Send Feedback</span>
+                                <span class="text-[11px] text-[#64705D] block leading-tight">Help improve the experience</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
 

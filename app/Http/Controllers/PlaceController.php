@@ -107,12 +107,33 @@ class PlaceController extends Controller
         ]);
     }
 
-    public function contribute()
+    public function contribute(Request $request)
     {
         $categories = PlaceRepository::getCategories();
+        $placeSlug = $request->query('place');
+        $action = $request->query('action', 'details');
+        $selectedPlace = $placeSlug ? PlaceRepository::findPlaceBySlug($placeSlug) : null;
+        $allPlaces = PlaceRepository::getAllPlaces();
 
         return view('pages.contribute', [
             'categories' => $categories,
+            'selectedPlace' => $selectedPlace,
+            'action' => $action,
+            'allPlaces' => $allPlaces,
+        ]);
+    }
+
+    public function contact(Request $request)
+    {
+        $allPlaces = PlaceRepository::getAllPlaces();
+        $placeSlug = $request->query('place');
+        $selectedPlace = $placeSlug ? PlaceRepository::findPlaceBySlug($placeSlug) : null;
+        $type = $request->query('type', 'feedback');
+
+        return view('pages.contact', [
+            'allPlaces' => $allPlaces,
+            'selectedPlace' => $selectedPlace,
+            'initialType' => $type,
         ]);
     }
 

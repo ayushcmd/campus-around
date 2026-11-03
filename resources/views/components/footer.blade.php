@@ -32,35 +32,31 @@
             <div>
                 <h3 class="text-xs font-bold uppercase tracking-wider text-[#9BE96B] mb-4">Discovery</h3>
                 <ul class="space-y-3 text-sm font-medium text-white/80">
-                    <li><a href="{{ route('inside') }}" class="hover:text-[#9BE96B] transition-colors">Inside Tour (Campus)</a></li>
-                    <li><a href="{{ route('outside') }}" class="hover:text-[#9BE96B] transition-colors">Outside Tour (Bihta)</a></li>
+                    <li><a href="{{ route('inside') }}" class="hover:text-[#9BE96B] transition-colors">Inside Tour</a></li>
+                    <li><a href="{{ route('outside') }}" class="hover:text-[#9BE96B] transition-colors">Outside Tour</a></li>
                     <li><a href="{{ route('locate') }}" class="hover:text-[#9BE96B] transition-colors">Locate & Directions</a></li>
-                    <li><a href="{{ route('contribute') }}" class="hover:text-[#9BE96B] transition-colors">Contribute Spot</a></li>
                     <li><a href="{{ route('explore') }}" class="hover:text-[#9BE96B] transition-colors">Directory Index</a></li>
                 </ul>
             </div>
 
-            <!-- Col 3: Community & About -->
+            <!-- Col 3: Community -->
             <div>
                 <h3 class="text-xs font-bold uppercase tracking-wider text-[#9BE96B] mb-4">Community</h3>
                 <ul class="space-y-3 text-sm font-medium text-white/80">
                     <li><a href="{{ route('contribute') }}" class="hover:text-[#9BE96B] transition-colors">Contribute a Place</a></li>
                     <li><a href="{{ route('about') }}" class="hover:text-[#9BE96B] transition-colors">About the Project</a></li>
                     <li><a href="{{ route('about') }}#guidelines" class="hover:text-[#9BE96B] transition-colors">Community Guidelines</a></li>
-                    <li><a href="{{ route('about') }}#roadmap" class="hover:text-[#9BE96B] transition-colors">Roadmap & Supabase</a></li>
                 </ul>
             </div>
 
-            <!-- Col 4: Feedback / Contact -->
+            <!-- Col 4: Feedback -->
             <div>
                 <h3 class="text-xs font-bold uppercase tracking-wider text-[#9BE96B] mb-4">Feedback</h3>
-                <p class="text-xs text-white/60 mb-3 leading-relaxed">
-                    Have thoughts or suggestions for the IIT Patna edition?
-                </p>
-                <a href="mailto:feedback@campusaround.iitp.local" class="inline-flex items-center gap-2 text-sm text-[#9BE96B] font-semibold hover:underline">
-                    <span>Contact CampusAround</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                </a>
+                <ul class="space-y-3 text-sm font-medium text-white/80">
+                    <li><a href="{{ route('contact') }}" class="hover:text-[#9BE96B] transition-colors">Contact</a></li>
+                    <li><a href="{{ route('contact', ['type' => 'feedback']) }}" class="hover:text-[#9BE96B] transition-colors">Send Feedback</a></li>
+                    <li><a href="{{ route('contact', ['type' => 'report']) }}" class="hover:text-[#9BE96B] transition-colors">Report Incorrect Info</a></li>
+                </ul>
             </div>
 
         </div>
@@ -69,7 +65,7 @@
         <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/50">
             <p>© {{ date('Y') }} CampusAround. Built for IIT Patna student community. Open-source educational project.</p>
             <div class="flex items-center gap-6">
-                <span class="text-white/40">Demo Data Only</span>
+                <span class="text-white/40">Verified IIT Patna Edition</span>
                 <a href="{{ route('about') }}" class="hover:text-white transition-colors">Design System</a>
                 <a href="#main-content" class="hover:text-white transition-colors">Back to top ↑</a>
             </div>

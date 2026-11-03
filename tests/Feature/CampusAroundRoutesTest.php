@@ -163,10 +163,50 @@ class CampusAroundRoutesTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('OUTSIDE TOUR');
+        $response->assertSee('nearby-places-data');
+        $response->assertSee('nearby-directory-grid');
+        $response->assertSee('function outsideTourApp');
         $response->assertSee('Bihari Thaath');
         $response->assertSee('Bihta Railway Station');
         $response->assertSee('Angeethi Cafe');
+        $response->assertSee('Maa Tara Xerox');
         $response->assertSee('outside-area-map');
+    }
+
+    public function test_outside_tour_dataset_and_menu_integrity(): void
+    {
+        $places = \App\Services\PlaceRepository::getOutsidePlaces();
+        $categories = \App\Services\PlaceRepository::getOutsideCategories();
+
+        $this->assertCount(12, $places);
+
+        // Unique IDs & Slugs
+        $ids = array_column($places, 'id');
+        $slugs = array_column($places, 'slug');
+        $this->assertCount(count($places), array_unique($ids));
+        $this->assertCount(count($places), array_unique($slugs));
+
+        // Food places have verified menus with positive prices
+        $foodPlaces = array_filter($places, fn($p) => in_array($p['category_id'], ['food', 'restaurants', 'cafes']));
+        $this->assertGreaterThanOrEqual(6, count($foodPlaces));
+        foreach ($foodPlaces as $fp) {
+            $this->assertNotEmpty($fp['menu'], "Place {$fp['name']} should have verified menu items");
+            foreach ($fp['menu'] as $item) {
+                $this->assertArrayHasKey('name', $item);
+                $this->assertArrayHasKey('price', $item);
+                $this->assertGreaterThan(0, $item['price']);
+            }
+        }
+
+        // All places have coordinates
+        foreach ($places as $p) {
+            $this->assertNotNull($p['latitude']);
+            $this->assertNotNull($p['longitude']);
+            $this->assertGreaterThan(25.5, $p['latitude']);
+            $this->assertLessThan(25.6, $p['latitude']);
+            $this->assertGreaterThan(84.8, $p['longitude']);
+            $this->assertLessThan(84.9, $p['longitude']);
+        }
     }
 
     public function test_locate_page_loads_with_routing_controls(): void
@@ -201,13 +241,18 @@ class CampusAroundRoutesTest extends TestCase
         $response->assertSee('place-detail-map');
     }
 
-    public function test_nearby_place_details_loads_correctly(): void
+    public function test_nearby_place_details_loads_correctly_with_menu(): void
     {
         $response = $this->get('/places/bihari-thaath-restaurant');
 
         $response->assertStatus(200);
         $response->assertSee('Bihari Thaath');
         $response->assertSee('Bihta-Kanpa Road');
+        $response->assertSee('Traditional Bihari Thali');
+        $response->assertSee('Litti Chokha');
+        $response->assertSee('₹140');
+        $response->assertSee('Suggest an Edit');
+        $response->assertSee('Navigate to this Spot in Locate');
     }
 
     public function test_nonexistent_place_returns_404(): void
@@ -223,16 +268,36 @@ class CampusAroundRoutesTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee("KNOW A PLACE WE'RE MISSING?", false);
-        $response->assertSee('Frontend Foundation Only');
         $response->assertSee('Place Photos (Max 3)');
     }
 
-    public function test_about_page_loads_successfully(): void
+    public function test_contribute_page_prefills_selected_place(): void
+    {
+        $response = $this->get('/contribute?place=bihari-thaath-restaurant&action=menu');
+
+        $response->assertStatus(200);
+        $response->assertSee('Bihari Thaath');
+        $response->assertSee('selected-place-data');
+    }
+
+    public function test_contact_page_loads_successfully(): void
+    {
+        $response = $this->get('/contact');
+
+        $response->assertStatus(200);
+        $response->assertSee('CONTACT & FEEDBACK');
+        $response->assertSee('Send General Feedback');
+        $response->assertSee('Report Incorrect Information');
+        $response->assertSee('feedback@campusaround.iitp.local');
+    }
+
+    public function test_about_page_loads_successfully_with_guidelines(): void
     {
         $response = $this->get('/about');
 
         $response->assertStatus(200);
         $response->assertSee('About CampusAround');
         $response->assertSee('The Bihta Campus Reality');
+        $response->assertSee('Community Guidelines & Data Policy', false);
     }
 }

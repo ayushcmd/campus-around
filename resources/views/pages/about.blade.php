@@ -66,6 +66,46 @@
                 </div>
             </div>
 
+            <!-- Community Guidelines & Data Verification -->
+            <div class="space-y-6" id="guidelines">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#9BE96B]/30 text-[#082D00] text-xs font-black uppercase tracking-wider">
+                    <span>Standards & Moderation</span>
+                </div>
+                <h3 class="text-2xl sm:text-3xl font-black uppercase text-[#082D00]">Community Guidelines & Data Policy</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-3xl p-6 border border-[#E5E7E1] shadow-2xs space-y-2">
+                        <span class="w-10 h-10 rounded-xl bg-[#F7F7F2] text-[#082D00] flex items-center justify-center font-bold text-lg border border-[#E5E7E1]">
+                            ✓
+                        </span>
+                        <h4 class="font-extrabold text-base text-[#082D00]">Factual Local Verification</h4>
+                        <p class="text-xs text-[#64705D] leading-relaxed">
+                            Only real businesses, genuine student food points, and public transport hubs with verifiable physical locations around IIT Patna are listed.
+                        </p>
+                    </div>
+
+                    <div class="bg-white rounded-3xl p-6 border border-[#E5E7E1] shadow-2xs space-y-2">
+                        <span class="w-10 h-10 rounded-xl bg-[#F7F7F2] text-[#082D00] flex items-center justify-center font-bold text-lg border border-[#E5E7E1]">
+                            🚫
+                        </span>
+                        <h4 class="font-extrabold text-base text-[#082D00]">No Fabricated Details</h4>
+                        <p class="text-xs text-[#64705D] leading-relaxed">
+                            We never show fake menus, made-up ratings, or unverified contact numbers. If information is unconfirmed, it is left blank or noted as unverified.
+                        </p>
+                    </div>
+
+                    <div class="bg-white rounded-3xl p-6 border border-[#E5E7E1] shadow-2xs space-y-2">
+                        <span class="w-10 h-10 rounded-xl bg-[#F7F7F2] text-[#082D00] flex items-center justify-center font-bold text-lg border border-[#E5E7E1]">
+                            🤝
+                        </span>
+                        <h4 class="font-extrabold text-base text-[#082D00]">Student-Moderated</h4>
+                        <p class="text-xs text-[#64705D] leading-relaxed">
+                            Community submissions pass through a peer moderation review before updating the directory, ensuring trust and community safety.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Technical Roadmap -->
             <div class="space-y-6" id="roadmap">
                 <h3 class="text-2xl font-black uppercase text-[#082D00]">Architecture & Next Steps</h3>
