@@ -8,6 +8,11 @@
     <title>{{ $title ?? 'CampusAround — Discover your campus and what\'s around' }}</title>
     <meta name="description" content="Discover campus facilities, food spots, cafes, shops, and services around IIT Patna. Built by students, for students.">
 
+    <!-- Official CampusAround Favicon & Branding Icons -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('CampusAround-logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('CampusAround-logo.png') }}">
+
     <!-- Fonts: Inter & Manrope -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -34,20 +34,13 @@
                     </button>
 
                     <!-- CampusAround Logo with IIT Patna Subtitle -->
-                    <a href="{{ route('home') }}" class="group flex items-center gap-2.5 sm:gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#082D00] rounded-xl p-1">
-                        <span class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#082D00] text-[#9BE96B] flex items-center justify-center font-black text-xl shadow-sm transition-transform duration-200 group-hover:scale-105 shrink-0">
-                            <svg class="w-5 h-5 sm:w-6 sm:h-6 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="9"/>
-                                <path d="m14.5 9.5-5 5"/>
-                                <path d="M12 3v3"/>
-                                <path d="M12 18v3"/>
-                                <path d="M3 12h3"/>
-                                <path d="M18 12h3"/>
-                            </svg>
-                        </span>
+                    <a href="{{ route('home') }}" class="group flex items-center gap-2.5 sm:gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#082D00] rounded-xl p-0.5">
+                        <img src="{{ asset('CampusAround-logo.png') }}" 
+                             alt="CampusAround Logo" 
+                             class="w-9 h-9 sm:w-11 sm:h-11 object-contain shrink-0 transition-transform duration-200 group-hover:scale-105">
                         <div class="flex flex-col">
-                            <span class="font-extrabold text-lg sm:text-xl tracking-tight text-[#082D00] leading-none">CampusAround</span>
-                            <span class="text-[10px] uppercase tracking-wider font-bold text-[#64705D] mt-0.5">IIT Patna</span>
+                            <span class="font-black text-lg sm:text-xl tracking-tight text-[#082D00] leading-none">CampusAround</span>
+                            <span class="text-[10px] uppercase tracking-wider font-extrabold text-[#64705D] mt-0.5">IIT Patna</span>
                         </div>
                     </a>
                 </div>
@@ -99,16 +92,9 @@
             <!-- Drawer Header: Brand + Close Button -->
             <div class="p-6 border-b border-[#E5E7E1] flex items-center justify-between bg-[#F7F7F2]">
                 <a href="{{ route('home') }}" @click="navDrawerOpen = false" class="flex items-center gap-3">
-                    <span class="w-9 h-9 rounded-xl bg-[#082D00] text-[#9BE96B] flex items-center justify-center font-black text-lg shadow-xs">
-                        <svg class="w-5 h-5 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="9"/>
-                            <path d="m14.5 9.5-5 5"/>
-                            <path d="M12 3v3"/>
-                            <path d="M12 18v3"/>
-                            <path d="M3 12h3"/>
-                            <path d="M18 12h3"/>
-                        </svg>
-                    </span>
+                    <img src="{{ asset('CampusAround-logo.png') }}" 
+                         alt="CampusAround Logo" 
+                         class="w-10 h-10 object-contain shrink-0">
                     <div>
                         <span class="font-black text-lg text-[#082D00] tracking-tight block leading-tight">CampusAround</span>
                         <span class="text-[10px] font-bold uppercase tracking-wider text-[#64705D]">IIT Patna Edition</span>

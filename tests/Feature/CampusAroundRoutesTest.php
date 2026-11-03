@@ -12,6 +12,7 @@ class CampusAroundRoutesTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('CampusAround');
+        $response->assertSee('CampusAround-logo.png');
         $response->assertSee('Explore');
         $response->assertSee('Navigate');
         $response->assertSee('DISCOVERY MODES');
@@ -23,6 +24,21 @@ class CampusAroundRoutesTest extends TestCase
         $response->assertSee('Choose a destination and explore your route.');
         $response->assertSee('Contribute');
         $response->assertSee('Share a useful place with the campus community.');
+    }
+
+    public function test_official_logo_and_branding_elements_are_rendered(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
+        $response->assertSee('CampusAround-logo.png');
+        $response->assertSee('favicon.ico');
+        $response->assertSee('apple-touch-icon');
+        $response->assertSee('alt="CampusAround Logo"', false);
+
+        $aboutResponse = $this->get('/about');
+        $aboutResponse->assertStatus(200);
+        $aboutResponse->assertSee('CampusAround-logo.png');
     }
 
     public function test_homepage_has_iit_patna_identity_card(): void

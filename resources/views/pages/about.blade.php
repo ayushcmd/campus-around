@@ -6,8 +6,16 @@
             
             <!-- Hero / Mission -->
             <div class="space-y-4">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#9BE96B]/30 text-[#082D00] text-xs font-black uppercase tracking-wider">
-                    <span>Our Purpose</span>
+                <div class="flex items-center gap-3.5">
+                    <img src="{{ asset('CampusAround-logo.png') }}" 
+                         alt="CampusAround Logo" 
+                         class="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#9BE96B]/30 text-[#082D00] text-xs font-black uppercase tracking-wider mb-1">
+                            <span>Our Purpose</span>
+                        </div>
+                        <div class="text-[11px] font-extrabold text-[#64705D] uppercase tracking-wider">CampusAround • IIT Patna Edition</div>
+                    </div>
                 </div>
                 <h1 class="text-4xl sm:text-6xl font-black uppercase tracking-tight text-[#082D00] leading-none">
                     EVERYTHING AROUND YOUR CAMPUS, DISCOVERED BY STUDENTS.

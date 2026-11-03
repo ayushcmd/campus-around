@@ -4,18 +4,11 @@
             
             <!-- Col 1: Brand & Tagline -->
             <div class="md:col-span-2 space-y-4">
-                <a href="{{ route('home') }}" class="inline-flex items-center gap-3">
-                    <span class="w-10 h-10 rounded-xl bg-[#9BE96B] text-[#082D00] flex items-center justify-center font-black text-xl shadow-sm">
-                        <svg class="w-6 h-6 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="9"/>
-                            <path d="m14.5 9.5-5 5"/>
-                            <path d="M12 3v3"/>
-                            <path d="M12 18v3"/>
-                            <path d="M3 12h3"/>
-                            <path d="M18 12h3"/>
-                        </svg>
-                    </span>
-                    <span class="font-extrabold text-2xl tracking-tight text-white">CampusAround</span>
+                <a href="{{ route('home') }}" class="inline-flex items-center gap-3 group">
+                    <img src="{{ asset('CampusAround-logo.png') }}" 
+                         alt="CampusAround Logo" 
+                         class="w-10 h-10 object-contain shrink-0 transition-transform duration-200 group-hover:scale-105">
+                    <span class="font-black text-2xl tracking-tight text-white">CampusAround</span>
                 </a>
                 <p class="text-white/70 text-base max-w-sm font-medium leading-relaxed">
                     Everything around your campus, discovered by students. Discover facilities, food stalls, cafes, and essentials across IIT Patna & Bihta.
