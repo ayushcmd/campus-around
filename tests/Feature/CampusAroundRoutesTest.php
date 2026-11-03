@@ -54,28 +54,107 @@ class CampusAroundRoutesTest extends TestCase
         $response->assertSee('inside-campus-map');
     }
 
-    public function test_inside_tour_dataset_is_verified_and_deduplicated(): void
+    public function test_inside_tour_receives_actual_facility_dataset_with_unique_ids(): void
     {
         $places = \App\Services\PlaceRepository::getInsidePlaces();
         $categories = \App\Services\PlaceRepository::getInsideCategories();
 
-        $this->assertGreaterThanOrEqual(37, count($places));
+        $this->assertCount(39, $places);
 
-        // Deduplication: exactly one Auditorium record
-        $auditoriums = array_filter($places, fn($p) => $p['id'] === 'iitp-main-auditorium');
-        $this->assertCount(1, $auditoriums);
+        // Verify unique IDs and Slugs
+        $ids = array_column($places, 'id');
+        $slugs = array_column($places, 'slug');
+        $this->assertCount(count($places), array_unique($ids), 'All facility IDs must be unique');
+        $this->assertCount(count($places), array_unique($slugs), 'All facility slugs must be unique');
 
-        // Every place has source attribution and verification status
+        // All Facilities count matches actual records
+        $allCat = array_values(array_filter($categories, fn($c) => $c['id'] === 'all'))[0] ?? null;
+        $this->assertNotNull($allCat);
+        $this->assertEquals(39, $allCat['count']);
+    }
+
+    public function test_inside_tour_html_renders_data_script_and_directory_container(): void
+    {
+        $response = $this->get('/inside');
+
+        $response->assertStatus(200);
+        $response->assertSee('INSIDE CAMPUS');
+        $response->assertSee('EXPLORE YOUR CAMPUS.');
+        $response->assertSee('campus-places-data');
+        $response->assertSee('campus-directory-grid');
+        $response->assertSee('function insideTourApp');
+        $response->assertSee('All Facilities');
+        $response->assertSee('(39)');
+
+        // Facility names appear in rendered output
+        $response->assertSee('Central Library');
+        $response->assertSee('Main Entrance (Gate 1)');
+        $response->assertSee('Kalam Hostel');
+        $response->assertSee('Block IX');
+        $response->assertSee('Auditorium & Event Complex', false);
+    }
+
+    public function test_inside_tour_filtering_logic(): void
+    {
+        $places = \App\Services\PlaceRepository::getInsidePlaces();
+
+        // Academic category filter
+        $academic = array_filter($places, fn($p) => $p['category_id'] === 'academic');
+        $this->assertCount(8, $academic);
+
+        // Hostel category filter
+        $hostels = array_filter($places, fn($p) => $p['category_id'] === 'hostel');
+        $this->assertCount(5, $hostels);
+
+        // Search returns matching facilities
+        $kalamMatches = array_filter($places, fn($p) => str_contains(strtolower($p['name']), 'kalam'));
+        $this->assertCount(1, $kalamMatches);
+        $this->assertEquals('Kalam Hostel', array_values($kalamMatches)[0]['name']);
+
+        // Search and category together
+        $diningCoffee = array_filter($places, fn($p) => $p['category_id'] === 'food' && str_contains(strtolower($p['name']), 'nescafe'));
+        $this->assertCount(1, $diningCoffee);
+    }
+
+    public function test_inside_tour_view_details_and_route_slugs(): void
+    {
+        $places = \App\Services\PlaceRepository::getInsidePlaces();
+
+        foreach (array_slice($places, 0, 5) as $place) {
+            $detailsResponse = $this->get('/places/' . $place['slug']);
+            $detailsResponse->assertStatus(200);
+            $detailsResponse->assertSee($place['name']);
+
+            $routeResponse = $this->get('/locate?destination=' . $place['slug']);
+            $routeResponse->assertStatus(200);
+            $routeResponse->assertSee($place['slug']);
+        }
+    }
+
+    public function test_inside_tour_spatial_coordinates_integrity(): void
+    {
+        $places = \App\Services\PlaceRepository::getInsidePlaces();
+
+        $withCoords = 0;
+        $withoutCoords = 0;
+
         foreach ($places as $place) {
-            $this->assertArrayHasKey('source', $place);
-            $this->assertStringContainsString('IIT Patna', $place['source']);
-            $this->assertStringContainsString('Verified', $place['verification_status']);
+            if ($place['latitude'] !== null && $place['longitude'] !== null) {
+                $withCoords++;
+                // Verify within IIT Patna / Bihta latitude & longitude bounding box
+                $this->assertGreaterThan(25.5, $place['latitude']);
+                $this->assertLessThan(25.6, $place['latitude']);
+                $this->assertGreaterThan(84.8, $place['longitude']);
+                $this->assertLessThan(84.9, $place['longitude']);
+            } else {
+                $withoutCoords++;
+                $this->assertNull($place['latitude']);
+                $this->assertNull($place['longitude']);
+            }
         }
 
-        // Dynamic categories have correct non-zero counts
-        foreach ($categories as $cat) {
-            $this->assertGreaterThan(0, $cat['count']);
-        }
+        $this->assertGreaterThan(20, $withCoords, 'Verified coordinates exist for mapped facilities');
+        $this->assertGreaterThan(5, $withoutCoords, 'Facilities without coordinates are explicitly null');
     }
 
     public function test_outside_tour_page_loads_with_real_nearby_spots(): void

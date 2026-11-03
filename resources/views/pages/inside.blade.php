@@ -1,257 +1,29 @@
 <x-app-layout :nav-theme="'light'">
     <x-slot name="title">Inside Tour — Verified IIT Patna Campus Facilities</x-slot>
 
-    <div x-data="insideTourApp({
-            places: @json($places),
-            initialCategory: '{{ $initialCategory ?? 'all' }}',
-            initialSearch: '{{ $initialSearch ?? '' }}'
-         })" 
-         class="py-8 sm:py-12">
-        
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <!-- Page Header: Left title/description & Right action -->
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-10 pb-6 border-b border-[#E5E7E1]">
-                <div class="max-w-2xl">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#082D00] text-[#9BE96B] text-xs font-black uppercase tracking-wider mb-3">
-                        <span class="w-1.5 h-1.5 rounded-full bg-[#9BE96B] animate-pulse"></span>
-                        INSIDE CAMPUS
-                    </div>
-                    <h1 class="text-3xl sm:text-5xl font-black uppercase tracking-tight text-[#082D00] leading-tight">
-                        EXPLORE YOUR CAMPUS.
-                    </h1>
-                    <p class="mt-2 text-base sm:text-lg text-[#64705D] font-medium leading-relaxed">
-                        Discover verified facilities, academic buildings, student spaces, and campus landmarks at IIT Patna.
-                    </p>
-                </div>
+    <!-- Pre-load data in JSON script tag to prevent HTML attribute quotes truncation -->
+    <script id="campus-places-data" type="application/json">
+        {!! json_encode($places, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
 
-                <div class="shrink-0 flex items-center gap-3">
-                    <button type="button"
-                            @click="scrollToDirectory()"
-                            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-[#082D00] border border-[#082D00]/20 hover:border-[#082D00] hover:bg-[#F7F7F2] font-black text-xs uppercase tracking-wider transition-all shadow-xs">
-                        <span>View all facilities</span>
-                        <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="m6 9 6 6 6-6"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Search, Filter & View Controls (No redundant empty space) -->
-            <div id="campus-directory-controls" class="bg-white rounded-3xl p-4 sm:p-6 border border-[#E5E7E1] shadow-xs mb-8 space-y-4">
-                
-                <!-- Search input -->
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-[#64705D]">
-                        <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8"/>
-                            <path d="m21 21-4.3-4.3"/>
-                        </svg>
-                    </div>
-                    <input type="text"
-                           x-model="searchQuery"
-                           @input="filterPlaces()"
-                           placeholder="Search verified campus facilities (e.g. Library, Block IX, Kalam Hostel, Sports, Nescafe)..."
-                           class="w-full bg-[#F7F7F2] text-[#082D00] placeholder:text-[#64705D]/70 font-semibold rounded-full py-3.5 pl-12 pr-10 border border-[#E5E7E1] focus:border-[#082D00] focus:bg-white focus:outline-none transition-all">
-                    
-                    <button type="button" 
-                            x-show="searchQuery.length > 0" 
-                            @click="searchQuery = ''; filterPlaces()" 
-                            class="absolute inset-y-0 right-4 flex items-center text-[#64705D] hover:text-[#082D00]">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
-                    </button>
-                </div>
-
-                <!-- Dynamic Category Chips (Calculated directly from dataset, smooth scroll, no oversized scrollbar) -->
-                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
-                    @foreach($categories as $cat)
-                        <button type="button"
-                                @click="setCategory('{{ $cat['id'] }}')"
-                                :class="selectedCategory === '{{ $cat['id'] }}' ? 'bg-[#082D00] text-white font-extrabold shadow-xs' : 'bg-white text-[#64705D] border border-[#E5E7E1] hover:border-[#082D00]/30 font-semibold'"
-                                class="shrink-0 px-4 py-2 rounded-full text-xs transition-all flex items-center gap-1.5 focus:outline-none">
-                            <span>{{ $cat['name'] }}</span>
-                            <span class="text-[10px] opacity-75 font-bold">({{ $cat['count'] }})</span>
-                        </button>
-                    @endforeach
-                </div>
-
-                <!-- Control summary bar & Cards/Map toggle -->
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-[#E5E7E1] text-xs">
-                    <div class="flex items-center gap-2">
-                        <span class="font-bold text-[#64705D]">
-                            Showing <span class="text-[#082D00] font-black" x-text="filteredPlaces.length"></span> verified campus facilities
-                        </span>
-                        <template x-if="searchQuery || selectedCategory !== 'all'">
-                            <button type="button" 
-                                    @click="resetFilters()" 
-                                    class="text-[11px] font-bold text-[#082D00] underline hover:opacity-80">
-                                Reset filters
-                            </button>
-                        </template>
-                    </div>
-
-                    <div class="inline-flex rounded-full bg-[#F7F7F2] p-1 border border-[#E5E7E1] self-start sm:self-auto">
-                        <button type="button" 
-                                @click="viewMode = 'grid'" 
-                                :class="viewMode === 'grid' ? 'bg-[#082D00] text-white shadow-xs' : 'text-[#64705D] hover:text-[#082D00]'"
-                                class="px-3.5 py-1.5 rounded-full font-bold transition-all flex items-center gap-1.5">
-                            <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.2">
-                                <rect width="7" height="7" x="3" y="3" rx="1"/>
-                                <rect width="7" height="7" x="14" y="3" rx="1"/>
-                                <rect width="7" height="7" x="14" y="14" rx="1"/>
-                                <rect width="7" height="7" x="3" y="14" rx="1"/>
-                            </svg>
-                            <span>Cards</span>
-                        </button>
-                        <button type="button" 
-                                @click="viewMode = 'map'; $nextTick(() => { if(map) { map.invalidateSize(); } })" 
-                                :class="viewMode === 'map' ? 'bg-[#082D00] text-white shadow-xs' : 'text-[#64705D] hover:text-[#082D00]'"
-                                class="px-3.5 py-1.5 rounded-full font-bold transition-all flex items-center gap-1.5">
-                            <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.2">
-                                <polygon points="3 11 22 2 13 21 11 13 3 11"/>
-                            </svg>
-                            <span>Live Map</span>
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- LIVE MAP VIEW (Only plots places with verified coordinates) -->
-            <div x-show="viewMode === 'map'" x-cloak class="mb-10 bg-white rounded-3xl border border-[#E5E7E1] p-4 sm:p-6 shadow-sm">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 px-1">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-[#082D00] animate-pulse"></span>
-                        <span class="text-xs font-black text-[#082D00] uppercase tracking-wider">
-                            IIT Patna Spatial Map — <span x-text="mappablePlacesCount"></span> Plotted Locations
-                        </span>
-                    </div>
-                    <span class="text-[11px] text-[#64705D] font-medium">
-                        Places without verified coordinates remain fully accessible in Cards view.
-                    </span>
-                </div>
-                <div id="inside-campus-map" class="w-full h-[450px] sm:h-[550px] rounded-2xl overflow-hidden border border-[#E5E7E1] z-10"></div>
-            </div>
-
-            <!-- CARDS GRID VIEW (Three columns desktop, two columns tablet, one column mobile) -->
-            <div x-show="viewMode === 'grid'" 
-                 id="campus-directory-grid" 
-                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                
-                <template x-for="place in filteredPlaces" :key="place.id">
-                    <article class="group bg-white rounded-3xl border border-[#E5E7E1] overflow-hidden flex flex-col hover:border-[#082D00]/40 hover:shadow-xl transition-all duration-300">
-                        
-                        <!-- Image Container with Genuine Image or Category Placeholder -->
-                        <div class="relative h-48 sm:h-52 w-full overflow-hidden bg-[#082D00]">
-                            
-                            <!-- Real Image if available -->
-                            <template x-if="place.image">
-                                <img :src="place.image" 
-                                     :alt="place.name" 
-                                     loading="lazy"
-                                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                     x-on:error="$el.style.display='none'; if($el.nextElementSibling) $el.nextElementSibling.style.display='flex'">
-                            </template>
-
-                            <!-- Neutral Category Placeholder if image is missing/unverified -->
-                            <div :class="place.image ? 'hidden' : 'flex'" 
-                                 class="w-full h-full flex-col items-center justify-center bg-gradient-to-br from-[#082D00] via-[#0D3800] to-[#041700] text-center p-4 relative overflow-hidden select-none">
-                                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#9BE96B_1px,transparent_1px)] [background-size:16px_16px]"></div>
-                                
-                                <div class="relative z-10 w-14 h-14 rounded-2xl bg-[#9BE96B]/15 border border-[#9BE96B]/30 flex items-center justify-center text-[#9BE96B] mb-2 shadow-inner"
-                                     x-html="getCategoryIcon(place.category_id)">
-                                </div>
-                                <div class="relative z-10">
-                                    <span class="text-[9px] font-black tracking-widest text-[#9BE96B] uppercase block">IIT PATNA CAMPUS</span>
-                                    <span class="text-xs font-bold text-white/90 truncate max-w-[200px] block mt-0.5" x-text="place.category"></span>
-                                </div>
-                            </div>
-
-                            <!-- Top Badges -->
-                            <div class="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 pointer-events-none z-20">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-[#082D00] text-white border border-white/20 shadow-xs">
-                                    Inside Campus
-                                </span>
-                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black bg-white/95 text-[#082D00] shadow-xs">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-[#164606]"></span>
-                                    <span x-text="place.category"></span>
-                                </span>
-                            </div>
-
-                            <!-- Area Pill -->
-                            <div class="absolute bottom-3 right-3 pointer-events-none z-20">
-                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-black/75 text-white backdrop-blur-xs">
-                                    <span x-text="place.campus_area"></span>
-                                </span>
-                            </div>
-                        </div>
-
-                        <!-- Card Body -->
-                        <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between">
-                            <div>
-                                <h3 class="text-lg sm:text-xl font-extrabold text-[#082D00] tracking-tight group-hover:text-[#134504] transition-colors leading-snug">
-                                    <a :href="'/places/' + place.slug" class="focus:outline-none focus:underline" x-text="place.name"></a>
-                                </h3>
-
-                                <p class="mt-2 text-sm text-[#64705D] line-clamp-2 leading-relaxed" x-text="place.tagline || place.description"></p>
-
-                                <!-- Verified Highlights Tags -->
-                                <div class="mt-3.5 flex flex-wrap gap-1.5">
-                                    <template x-for="tag in (place.tags || []).slice(0, 3)" :key="tag">
-                                        <span class="px-2 py-0.5 rounded-md bg-[#F7F7F2] text-[#64705D] text-[11px] font-semibold border border-[#E5E7E1]" x-text="tag"></span>
-                                    </template>
-                                </div>
-
-                                <!-- Source Attribution Note -->
-                                <div class="mt-4 pt-3 border-t border-[#E5E7E1] text-[11px] text-[#64705D]">
-                                    <span class="font-bold text-[#082D00]">Source:</span>
-                                    <span class="truncate block text-[10px] text-[#64705D]" x-text="place.source"></span>
-                                </div>
-                            </div>
-
-                            <!-- Card Footer Actions: View Details and Route -->
-                            <div class="mt-5 pt-4 border-t border-[#E5E7E1] flex items-center justify-between gap-2">
-                                <a :href="'/places/' + place.slug" 
-                                   class="text-xs font-bold text-[#64705D] hover:text-[#082D00] transition-colors">
-                                    View Details &rarr;
-                                </a>
-
-                                <a :href="'/locate?destination=' + place.slug" 
-                                   class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-black bg-[#9BE96B] text-[#082D00] hover:bg-[#8AE157] active:scale-95 transition-all shadow-xs">
-                                    <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <polygon points="3 11 22 2 13 21 11 13 3 11"/>
-                                    </svg>
-                                    <span>Route</span>
-                                </a>
-                            </div>
-                        </div>
-
-                    </article>
-                </template>
-
-            </div>
-
-            <!-- Empty State Fallback -->
-            <div x-show="filteredPlaces.length === 0" x-cloak class="py-12">
-                <x-empty-state 
-                    title="No facilities found matching your search"
-                    message="Try clearing your search terms or selecting 'All Facilities' to browse the complete verified campus directory."
-                    resetText="Show all campus facilities"
-                    :resetUrl="route('inside')"
-                />
-            </div>
-
-        </div>
-    </div>
-
-    @push('scripts')
+    <!-- Define insideTourApp function before x-data initializes -->
     <script>
         function insideTourApp(config) {
+            let parsedPlaces = [];
+            try {
+                const dataEl = document.getElementById('campus-places-data');
+                if (dataEl && dataEl.textContent) {
+                    parsedPlaces = JSON.parse(dataEl.textContent);
+                }
+            } catch (err) {
+                console.error('Error parsing campus places data:', err);
+            }
+
             return {
-                places: config.places,
-                filteredPlaces: config.places,
-                selectedCategory: config.initialCategory || 'all',
-                searchQuery: config.initialSearch || '',
+                places: parsedPlaces,
+                filteredPlaces: parsedPlaces,
+                selectedCategory: (config && config.initialCategory) || 'all',
+                searchQuery: (config && config.initialSearch) || '',
                 viewMode: 'grid', // 'grid' or 'map'
                 map: null,
                 markers: [],
@@ -286,7 +58,7 @@
                 },
 
                 filterPlaces() {
-                    const q = this.searchQuery.toLowerCase().trim();
+                    const q = (this.searchQuery || '').toLowerCase().trim();
                     const cat = this.selectedCategory;
 
                     this.filteredPlaces = this.places.filter(place => {
@@ -296,7 +68,7 @@
                             const nameMatch = (place.name || '').toLowerCase().includes(q);
                             const descMatch = (place.description || '').toLowerCase().includes(q);
                             const catMatch = (place.category || '').toLowerCase().includes(q);
-                            const tagMatch = place.tags && place.tags.some(t => t.toLowerCase().includes(q));
+                            const tagMatch = place.tags && place.tags.some(t => (t || '').toLowerCase().includes(q));
                             matchQuery = nameMatch || descMatch || catMatch || tagMatch;
                         }
                         return matchCat && matchQuery;
@@ -391,8 +163,248 @@
                         }
                     });
                 }
-            }
+            };
         }
     </script>
-    @endpush
+
+    <div x-data="insideTourApp({
+            initialCategory: '{{ $initialCategory ?? 'all' }}',
+            initialSearch: '{{ $initialSearch ?? '' }}'
+         })" 
+         class="py-8 sm:py-12">
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Page Header: Left title/description & Right action -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-10 pb-6 border-b border-[#E5E7E1]">
+                <div class="max-w-2xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#082D00] text-[#9BE96B] text-xs font-black uppercase tracking-wider mb-3">
+                        <span class="w-1.5 h-1.5 rounded-full bg-[#9BE96B] animate-pulse"></span>
+                        INSIDE CAMPUS
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-black uppercase tracking-tight text-[#082D00] leading-tight">
+                        EXPLORE YOUR CAMPUS.
+                    </h1>
+                    <p class="mt-2 text-base sm:text-lg text-[#64705D] font-medium leading-relaxed">
+                        Discover verified facilities, academic buildings, student spaces, and campus landmarks at IIT Patna.
+                    </p>
+                </div>
+
+                <div class="shrink-0 flex items-center gap-3">
+                    <button type="button"
+                            @click="scrollToDirectory()"
+                            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-[#082D00] border border-[#082D00]/20 hover:border-[#082D00] hover:bg-[#F7F7F2] font-black text-xs uppercase tracking-wider transition-all shadow-xs">
+                        <span>View all facilities</span>
+                        <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search, Filter & View Controls -->
+            <div id="campus-directory-controls" class="bg-white rounded-3xl p-4 sm:p-6 border border-[#E5E7E1] shadow-xs mb-8 space-y-4">
+                
+                <!-- Search input -->
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-[#64705D]">
+                        <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.3-4.3"/>
+                        </svg>
+                    </div>
+                    <input type="text"
+                           x-model="searchQuery"
+                           @input="filterPlaces()"
+                           placeholder="Search verified campus facilities (e.g. Library, Block IX, Kalam Hostel, Sports, Nescafe)..."
+                           class="w-full bg-[#F7F7F2] text-[#082D00] placeholder:text-[#64705D]/70 font-semibold rounded-full py-3.5 pl-12 pr-10 border border-[#E5E7E1] focus:border-[#082D00] focus:bg-white focus:outline-none transition-all">
+                    
+                    <button type="button" 
+                            x-show="searchQuery && searchQuery.length > 0" 
+                            @click="searchQuery = ''; filterPlaces()" 
+                            class="absolute inset-y-0 right-4 flex items-center text-[#64705D] hover:text-[#082D00]">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+
+                <!-- Dynamic Category Chips (Calculated directly from dataset, smooth scroll, no oversized scrollbar) -->
+                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                    @foreach($categories as $cat)
+                        <button type="button"
+                                @click="setCategory('{{ $cat['id'] }}')"
+                                :class="selectedCategory === '{{ $cat['id'] }}' ? 'bg-[#082D00] text-white font-extrabold shadow-xs' : 'bg-white text-[#64705D] border border-[#E5E7E1] hover:border-[#082D00]/30 font-semibold'"
+                                class="shrink-0 px-4 py-2 rounded-full text-xs transition-all flex items-center gap-1.5 focus:outline-none">
+                            <span>{{ $cat['name'] }}</span>
+                            <span class="text-[10px] opacity-75 font-bold">({{ $cat['count'] }})</span>
+                        </button>
+                    @endforeach
+                </div>
+
+                <!-- Control summary bar & Cards/Map toggle -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-[#E5E7E1] text-xs">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-[#64705D]">
+                            Showing <span class="text-[#082D00] font-black" x-text="filteredPlaces.length"></span> verified campus facilities
+                        </span>
+                        <template x-if="searchQuery || selectedCategory !== 'all'">
+                            <button type="button" 
+                                    @click="resetFilters()" 
+                                    class="text-[11px] font-bold text-[#082D00] underline hover:opacity-80">
+                                Reset filters
+                            </button>
+                        </template>
+                    </div>
+
+                    <div class="inline-flex rounded-full bg-[#F7F7F2] p-1 border border-[#E5E7E1] self-start sm:self-auto">
+                        <button type="button" 
+                                @click="viewMode = 'grid'" 
+                                :class="viewMode === 'grid' ? 'bg-[#082D00] text-white shadow-xs' : 'text-[#64705D] hover:text-[#082D00]'"
+                                class="px-3.5 py-1.5 rounded-full font-bold transition-all flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.2">
+                                <rect width="7" height="7" x="3" y="3" rx="1"/>
+                                <rect width="7" height="7" x="14" y="3" rx="1"/>
+                                <rect width="7" height="7" x="14" y="14" rx="1"/>
+                                <rect width="7" height="7" x="3" y="14" rx="1"/>
+                            </svg>
+                            <span>Cards</span>
+                        </button>
+                        <button type="button" 
+                                @click="viewMode = 'map'; $nextTick(() => { if(map) { map.invalidateSize(); } })" 
+                                :class="viewMode === 'map' ? 'bg-[#082D00] text-white shadow-xs' : 'text-[#64705D] hover:text-[#082D00]'"
+                                class="px-3.5 py-1.5 rounded-full font-bold transition-all flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.2">
+                                <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+                            </svg>
+                            <span>Live Map</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- LIVE MAP VIEW (Only plots places with verified coordinates) -->
+            <div x-show="viewMode === 'map'" x-cloak class="mb-10 bg-white rounded-3xl border border-[#E5E7E1] p-4 sm:p-6 shadow-sm">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 px-1">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#082D00] animate-pulse"></span>
+                        <span class="text-xs font-black text-[#082D00] uppercase tracking-wider">
+                            IIT Patna Spatial Map — <span x-text="mappablePlacesCount"></span> Plotted Locations
+                        </span>
+                    </div>
+                    <span class="text-[11px] text-[#64705D] font-medium">
+                        Places without verified coordinates remain fully accessible in Cards view.
+                    </span>
+                </div>
+                <div id="inside-campus-map" class="w-full h-[450px] sm:h-[550px] rounded-2xl overflow-hidden border border-[#E5E7E1] z-10"></div>
+            </div>
+
+            <!-- CARDS GRID VIEW (Three columns desktop, two columns tablet, one column mobile) -->
+            <div x-show="viewMode === 'grid'" 
+                 id="campus-directory-grid" 
+                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                
+                <template x-for="place in filteredPlaces" :key="place.id">
+                    <article class="group bg-white rounded-3xl border border-[#E5E7E1] overflow-hidden flex flex-col hover:border-[#082D00]/40 hover:shadow-xl transition-all duration-300">
+                        
+                        <!-- Image Container with Genuine Image or Category Placeholder -->
+                        <div class="relative h-48 sm:h-52 w-full overflow-hidden bg-[#082D00]">
+                            
+                            <!-- Real Image (shown when place.image exists) -->
+                            <img x-show="place.image" 
+                                 :src="place.image || ''" 
+                                 :alt="place.name" 
+                                 loading="lazy"
+                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                 x-on:error="place.image = null">
+
+                            <!-- Neutral Category Placeholder (shown when place.image is null or errored) -->
+                            <div x-show="!place.image" 
+                                 class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[#082D00] via-[#0D3800] to-[#041700] text-center p-4 relative overflow-hidden select-none">
+                                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#9BE96B_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                                
+                                <div class="relative z-10 w-14 h-14 rounded-2xl bg-[#9BE96B]/15 border border-[#9BE96B]/30 flex items-center justify-center text-[#9BE96B] mb-2 shadow-inner"
+                                     x-html="getCategoryIcon(place.category_id)">
+                                </div>
+                                <div class="relative z-10">
+                                    <span class="text-[9px] font-black tracking-widest text-[#9BE96B] uppercase block">IIT PATNA CAMPUS</span>
+                                    <span class="text-xs font-bold text-white/90 truncate max-w-[200px] block mt-0.5" x-text="place.category"></span>
+                                </div>
+                            </div>
+
+                            <!-- Top Badges -->
+                            <div class="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 pointer-events-none z-20">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-[#082D00] text-white border border-white/20 shadow-xs">
+                                    Inside Campus
+                                </span>
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black bg-white/95 text-[#082D00] shadow-xs">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-[#164606]"></span>
+                                    <span x-text="place.category"></span>
+                                </span>
+                            </div>
+
+                            <!-- Area Pill -->
+                            <div class="absolute bottom-3 right-3 pointer-events-none z-20">
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-black/75 text-white backdrop-blur-xs">
+                                    <span x-text="place.campus_area"></span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-extrabold text-[#082D00] tracking-tight group-hover:text-[#134504] transition-colors leading-snug">
+                                    <a :href="'/places/' + place.slug" class="focus:outline-none focus:underline" x-text="place.name"></a>
+                                </h3>
+
+                                <p class="mt-2 text-sm text-[#64705D] line-clamp-2 leading-relaxed" x-text="place.tagline || place.description"></p>
+
+                                <!-- Verified Highlights Tags -->
+                                <div class="mt-3.5 flex flex-wrap gap-1.5">
+                                    <template x-for="tag in (place.tags || []).slice(0, 3)" :key="tag">
+                                        <span class="px-2 py-0.5 rounded-md bg-[#F7F7F2] text-[#64705D] text-[11px] font-semibold border border-[#E5E7E1]" x-text="tag"></span>
+                                    </template>
+                                </div>
+
+                                <!-- Source Attribution Note -->
+                                <div class="mt-4 pt-3 border-t border-[#E5E7E1] text-[11px] text-[#64705D]">
+                                    <span class="font-bold text-[#082D00]">Source:</span>
+                                    <span class="truncate block text-[10px] text-[#64705D]" x-text="place.source"></span>
+                                </div>
+                            </div>
+
+                            <!-- Card Footer Actions: View Details and Route -->
+                            <div class="mt-5 pt-4 border-t border-[#E5E7E1] flex items-center justify-between gap-2">
+                                <a :href="'/places/' + place.slug" 
+                                   class="text-xs font-bold text-[#64705D] hover:text-[#082D00] transition-colors">
+                                    View Details &rarr;
+                                </a>
+
+                                <a :href="'/locate?destination=' + place.slug" 
+                                   class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-black bg-[#9BE96B] text-[#082D00] hover:bg-[#8AE157] active:scale-95 transition-all shadow-xs">
+                                    <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+                                    </svg>
+                                    <span>Route</span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </article>
+                </template>
+
+            </div>
+
+            <!-- Empty State Fallback -->
+            <div x-show="filteredPlaces.length === 0" x-cloak class="py-12">
+                <x-empty-state 
+                    title="No facilities found matching your search"
+                    message="Try clearing your search terms or selecting 'All Facilities' to browse the complete verified campus directory."
+                    resetText="Show all campus facilities"
+                    :resetUrl="route('inside')"
+                />
+            </div>
+
+        </div>
+    </div>
 </x-app-layout>
