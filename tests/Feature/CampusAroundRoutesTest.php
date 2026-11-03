@@ -360,7 +360,7 @@ class CampusAroundRoutesTest extends TestCase
         $this->assertArrayHasKey('functions', $vercelConfig);
         $this->assertStringContainsString('vercel-php', $vercelConfig['functions']['api/index.php']['runtime']);
         $this->assertEquals('public', $vercelConfig['outputDirectory']);
-        $this->assertArrayHasKey('rewrites', $vercelConfig);
+        $this->assertArrayHasKey('routes', $vercelConfig);
         $this->assertArrayHasKey('env', $vercelConfig);
         $this->assertEquals('/tmp/views', $vercelConfig['env']['VIEW_COMPILED_PATH']);
         $this->assertEquals('cookie', $vercelConfig['env']['SESSION_DRIVER']);
