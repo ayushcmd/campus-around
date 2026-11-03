@@ -2,7 +2,7 @@
     <x-slot name="title">CampusAround — Discover IIT Patna & What's Around</x-slot>
 
     <!-- SECTION A: HERO SECTION (Wise-inspired Lime Green Canvas) -->
-    <section class="relative bg-[#9BE96B] text-[#082D00] pt-6 pb-20 sm:pt-10 sm:pb-28 lg:pt-14 lg:pb-32 overflow-hidden"
+    <section class="relative bg-[#9BE96B] text-[#082D00] pt-6 pb-16 sm:pt-10 sm:pb-24 lg:pt-12 lg:pb-28 overflow-hidden"
              x-data="homeSearchApp({ allPlaces: @json($allPlaces) })">
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -21,7 +21,7 @@
 
                 <!-- Supporting Description -->
                 <p class="mt-5 text-base sm:text-xl lg:text-2xl font-medium text-[#082D00]/85 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                    Verified facilities, academic blocks, street food, cafes, and live navigation around IIT Patna.
+                    Find campus facilities, food spots, shops, cafes, and hidden places around IIT Patna.
                 </p>
 
                 <!-- PROMINENT SEARCH BAR (Appears BEFORE the 4 discovery options) -->
@@ -107,18 +107,17 @@
                 <!-- FOUR MAIN DISCOVERY OPTIONS (Directly BELOW the search bar) -->
                 <!-- Desktop: 4 in a horizontal row | Mobile: 2x2 responsive grid -->
                 <div class="mt-8 sm:mt-10 pt-8 border-t border-[#082D00]/15">
-                    <p class="text-xs uppercase font-black tracking-widest text-[#082D00]/70 mb-4 text-left">
-                        Discovery Modes
+                    <p class="text-xs uppercase font-black tracking-widest text-[#082D00]/80 mb-4 text-left">
+                        DISCOVERY MODES
                     </p>
 
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 text-left">
                         
                         <!-- 1. Inside Tour -->
                         <a href="{{ route('inside') }}" 
-                           class="group bg-white/90 hover:bg-white p-4 sm:p-5 rounded-3xl border border-[#082D00]/10 hover:border-[#082D00] shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col justify-between">
+                           class="group bg-white hover:bg-white/95 p-4 sm:p-5 rounded-3xl border border-[#082D00]/10 hover:border-[#082D00] shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col justify-between">
                             <div>
                                 <div class="w-10 h-10 rounded-2xl bg-[#082D00] text-[#9BE96B] flex items-center justify-center font-bold mb-3 shadow-xs group-hover:scale-105 transition-transform">
-                                    <!-- Building SVG -->
                                     <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                         <rect width="16" height="20" x="4" y="2" rx="2" ry="2"/>
                                         <path d="M9 22v-4h6v4"/>
@@ -131,11 +130,11 @@
                                 <h3 class="font-black text-base sm:text-lg text-[#082D00] tracking-tight group-hover:text-[#134504]">
                                     Inside Tour
                                 </h3>
-                                <p class="text-xs text-[#64705D] mt-1 font-medium leading-relaxed line-clamp-2">
-                                    Real academic blocks, library, auditorium, and student hostels.
+                                <p class="text-xs text-[#64705D] mt-1.5 font-medium leading-relaxed">
+                                    Explore campus buildings, facilities, and student spaces.
                                 </p>
                             </div>
-                            <div class="mt-3 pt-2 flex items-center gap-1 text-xs font-extrabold text-[#082D00]">
+                            <div class="mt-4 pt-2 flex items-center gap-1 text-xs font-extrabold text-[#082D00]">
                                 <span>Explore Campus</span>
                                 <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
                             </div>
@@ -143,10 +142,9 @@
 
                         <!-- 2. Outside Tour -->
                         <a href="{{ route('outside') }}" 
-                           class="group bg-white/90 hover:bg-white p-4 sm:p-5 rounded-3xl border border-[#082D00]/10 hover:border-[#082D00] shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col justify-between">
+                           class="group bg-white hover:bg-white/95 p-4 sm:p-5 rounded-3xl border border-[#082D00]/10 hover:border-[#082D00] shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col justify-between">
                             <div>
                                 <div class="w-10 h-10 rounded-2xl bg-[#082D00] text-[#9BE96B] flex items-center justify-center font-bold mb-3 shadow-xs group-hover:scale-105 transition-transform">
-                                    <!-- Store SVG -->
                                     <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/>
                                         <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
@@ -156,11 +154,11 @@
                                 <h3 class="font-black text-base sm:text-lg text-[#082D00] tracking-tight group-hover:text-[#134504]">
                                     Outside Tour
                                 </h3>
-                                <p class="text-xs text-[#64705D] mt-1 font-medium leading-relaxed line-clamp-2">
-                                    Real eateries, momos, cafes, daily grocery & Bihta stations.
+                                <p class="text-xs text-[#64705D] mt-1.5 font-medium leading-relaxed">
+                                    Discover nearby food, cafes, shops, and useful services.
                                 </p>
                             </div>
-                            <div class="mt-3 pt-2 flex items-center gap-1 text-xs font-extrabold text-[#082D00]">
+                            <div class="mt-4 pt-2 flex items-center gap-1 text-xs font-extrabold text-[#082D00]">
                                 <span>Browse Periphery</span>
                                 <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
                             </div>
@@ -168,10 +166,9 @@
 
                         <!-- 3. Locate -->
                         <a href="{{ route('locate') }}" 
-                           class="group bg-white/90 hover:bg-white p-4 sm:p-5 rounded-3xl border border-[#082D00]/10 hover:border-[#082D00] shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col justify-between">
+                           class="group bg-white hover:bg-white/95 p-4 sm:p-5 rounded-3xl border border-[#082D00]/10 hover:border-[#082D00] shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col justify-between">
                             <div>
                                 <div class="w-10 h-10 rounded-2xl bg-[#082D00] text-[#9BE96B] flex items-center justify-center font-bold mb-3 shadow-xs group-hover:scale-105 transition-transform">
-                                    <!-- Navigation SVG -->
                                     <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                         <polygon points="3 11 22 2 13 21 11 13 3 11"/>
                                     </svg>
@@ -179,11 +176,11 @@
                                 <h3 class="font-black text-base sm:text-lg text-[#082D00] tracking-tight group-hover:text-[#134504]">
                                     Locate
                                 </h3>
-                                <p class="text-xs text-[#64705D] mt-1 font-medium leading-relaxed line-clamp-2">
-                                    Apple-style live navigation, route directions & real road times.
+                                <p class="text-xs text-[#64705D] mt-1.5 font-medium leading-relaxed">
+                                    Choose a destination and explore your route.
                                 </p>
                             </div>
-                            <div class="mt-3 pt-2 flex items-center gap-1 text-xs font-extrabold text-[#082D00]">
+                            <div class="mt-4 pt-2 flex items-center gap-1 text-xs font-extrabold text-[#082D00]">
                                 <span>Start Routing</span>
                                 <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
                             </div>
@@ -191,10 +188,9 @@
 
                         <!-- 4. Contribute -->
                         <a href="{{ route('contribute') }}" 
-                           class="group bg-white/90 hover:bg-white p-4 sm:p-5 rounded-3xl border border-[#082D00]/10 hover:border-[#082D00] shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col justify-between">
+                           class="group bg-white hover:bg-white/95 p-4 sm:p-5 rounded-3xl border border-[#082D00]/10 hover:border-[#082D00] shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col justify-between">
                             <div>
                                 <div class="w-10 h-10 rounded-2xl bg-[#082D00] text-[#9BE96B] flex items-center justify-center font-bold mb-3 shadow-xs group-hover:scale-105 transition-transform">
-                                    <!-- Plus Circle SVG -->
                                     <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="12" cy="12" r="10"/>
                                         <path d="M8 12h8"/>
@@ -204,11 +200,11 @@
                                 <h3 class="font-black text-base sm:text-lg text-[#082D00] tracking-tight group-hover:text-[#134504]">
                                     Contribute
                                 </h3>
-                                <p class="text-xs text-[#64705D] mt-1 font-medium leading-relaxed line-clamp-2">
-                                    Add missing spots, tea stalls, or services around campus.
+                                <p class="text-xs text-[#64705D] mt-1.5 font-medium leading-relaxed">
+                                    Share a useful place with the campus community.
                                 </p>
                             </div>
-                            <div class="mt-3 pt-2 flex items-center gap-1 text-xs font-extrabold text-[#082D00]">
+                            <div class="mt-4 pt-2 flex items-center gap-1 text-xs font-extrabold text-[#082D00]">
                                 <span>Share a Spot</span>
                                 <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
                             </div>
@@ -224,24 +220,65 @@
         <div class="absolute right-0 bottom-0 translate-x-1/4 translate-y-1/4 w-[500px] h-[500px] lg:w-[700px] lg:h-[700px] rounded-full border-[60px] lg:border-[90px] border-[#8AE157]/40 pointer-events-none -z-0"></div>
     </section>
 
-    <!-- SECTION B: CATEGORY DISCOVERY -->
-    <section class="py-16 sm:py-24 bg-[#F7F7F2]">
+    <!-- SECTION B: IIT PATNA IDENTITY SECTION (Inspired by clean central card with shaded background image) -->
+    <section class="py-12 sm:py-20 bg-[#9BE96B]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <x-section-heading 
-                eyebrow="Browse by category"
-                title="WHAT ARE YOU LOOKING FOR TODAY?"
-                description="Browse every essential spot around campus or filter by your current mood and requirements."
-                actionText="Explore all categories"
-                :actionHref="route('explore')"
-            />
+            <div class="relative rounded-3xl sm:rounded-[36px] overflow-hidden border border-[#082D00]/20 shadow-2xl min-h-[460px] sm:min-h-[520px] flex items-center">
+                
+                <!-- Shaded Real IIT Patna Campus Background Image -->
+                <img src="{{ asset('images/iit-patna-campus.jpg') }}" 
+                     alt="IIT Patna Bihta Campus" 
+                     class="absolute inset-0 w-full h-full object-cover object-center"
+                     onerror="this.style.display='none'">
 
-            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-                @foreach($categories as $category)
-                    <x-category-card 
-                        :category="$category" 
-                        :href="route('explore', ['category' => $category['id']])" 
-                    />
-                @endforeach
+                <!-- Dark Forest-Green Shading / Gradient Overlay for High-Contrast Text Readability -->
+                <div class="absolute inset-0 bg-gradient-to-r from-[#082D00]/95 via-[#082D00]/85 to-[#082D00]/65 sm:via-[#082D00]/80"></div>
+                <div class="absolute inset-0 bg-black/25"></div>
+
+                <!-- Content Container -->
+                <div class="relative z-10 p-6 sm:p-12 lg:p-16 max-w-2xl text-white">
+                    
+                    <!-- Verified Location Badge -->
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#9BE96B] text-[#082D00] text-xs font-black uppercase tracking-wider mb-4 shadow-sm">
+                        <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        <span>Bihta, Patna, Bihar, India</span>
+                    </div>
+
+                    <!-- Main Heading -->
+                    <h2 class="text-4xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tight text-white leading-none">
+                        IIT PATNA
+                    </h2>
+
+                    <!-- Subtitle: Official Full Name -->
+                    <p class="text-lg sm:text-xl font-bold text-[#9BE96B] mt-2.5 tracking-tight">
+                        Indian Institute of Technology Patna
+                    </p>
+
+                    <!-- Supporting Text -->
+                    <p class="text-sm sm:text-base text-white/85 font-medium mt-4 leading-relaxed max-w-xl">
+                        Discover campus facilities, student spaces, and useful places around IIT Patna.
+                    </p>
+
+                    <!-- Two Action Buttons -->
+                    <div class="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
+                        <!-- Primary Action: Explore Campus -->
+                        <a href="{{ route('inside') }}" 
+                           class="inline-flex items-center justify-center px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-[#9BE96B] text-[#082D00] font-black text-xs sm:text-sm uppercase tracking-wider hover:bg-[#8AE157] active:scale-95 transition-all shadow-md">
+                            <span>Explore Campus</span>
+                            <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                        </a>
+
+                        <!-- Secondary Action: View Campus Map -->
+                        <a href="{{ route('locate') }}" 
+                           class="inline-flex items-center justify-center px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/30 backdrop-blur-sm font-black text-xs sm:text-sm uppercase tracking-wider active:scale-95 transition-all">
+                            <span>View Campus Map</span>
+                            <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                        </a>
+                    </div>
+
+                </div>
             </div>
         </div>
     </section>

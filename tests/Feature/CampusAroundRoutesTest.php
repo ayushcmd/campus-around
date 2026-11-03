@@ -6,17 +6,37 @@ use Tests\TestCase;
 
 class CampusAroundRoutesTest extends TestCase
 {
-    public function test_homepage_loads_successfully_with_four_discovery_options(): void
+    public function test_homepage_loads_successfully_with_refined_navbar_and_discovery_modes(): void
     {
         $response = $this->get('/');
 
         $response->assertStatus(200);
         $response->assertSee('CampusAround');
+        $response->assertSee('Explore');
+        $response->assertSee('Navigate');
+        $response->assertSee('DISCOVERY MODES');
         $response->assertSee('Inside Tour');
+        $response->assertSee('Explore campus buildings, facilities, and student spaces.');
         $response->assertSee('Outside Tour');
+        $response->assertSee('Discover nearby food, cafes, shops, and useful services.');
         $response->assertSee('Locate');
+        $response->assertSee('Choose a destination and explore your route.');
         $response->assertSee('Contribute');
-        $response->assertSee('Search campus buildings');
+        $response->assertSee('Share a useful place with the campus community.');
+    }
+
+    public function test_homepage_has_iit_patna_identity_card(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
+        $response->assertSee('IIT PATNA');
+        $response->assertSee('Indian Institute of Technology Patna');
+        $response->assertSee('Bihta, Patna, Bihar, India');
+        $response->assertSee('Discover campus facilities, student spaces, and useful places around IIT Patna.');
+        $response->assertSee('Explore Campus');
+        $response->assertSee('View Campus Map');
+        $response->assertSee('images/iit-patna-campus.jpg');
     }
 
     public function test_inside_tour_page_loads_with_real_campus_facilities(): void

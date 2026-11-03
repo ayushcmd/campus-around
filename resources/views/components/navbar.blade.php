@@ -16,26 +16,27 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 
-                <!-- Left: Menu Drawer Toggle + Logo -->
+                <!-- Left: Explore Drawer Toggle Button + CampusAround Logo -->
                 <div class="flex items-center gap-3 sm:gap-4">
-                    <!-- Hamburger / Drawer Toggle Button (Left Navigation Trigger) -->
+                    <!-- Explore Button (Replaces MENU, opens Left-Side Navigation Drawer) -->
                     <button type="button" 
                             @click="navDrawerOpen = true"
-                            class="inline-flex items-center gap-2 p-2.5 rounded-2xl bg-white/80 border border-[#E5E7E1] text-[#082D00] hover:bg-white hover:border-[#082D00]/30 active:scale-95 transition-all shadow-xs focus:outline-none focus:ring-2 focus:ring-[#082D00]"
-                            aria-label="Open Left Navigation Drawer"
+                            class="inline-flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-full bg-white text-[#082D00] border border-[#082D00]/15 hover:border-[#082D00] hover:bg-neutral-50 active:scale-95 transition-all shadow-xs focus:outline-none focus:ring-2 focus:ring-[#082D00]"
+                            aria-label="Open Explore Navigation Drawer"
                             :aria-expanded="navDrawerOpen.toString()">
-                        <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <!-- Lucide Menu Hamburger Icon -->
+                        <svg class="w-4 h-4 stroke-current shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="3" x2="21" y1="6" y2="6"/>
                             <line x1="3" x2="21" y1="12" y2="12"/>
                             <line x1="3" x2="21" y1="18" y2="18"/>
                         </svg>
-                        <span class="hidden sm:inline text-xs font-black uppercase tracking-wider text-[#082D00]">Menu</span>
+                        <span class="text-xs font-black uppercase tracking-wider text-[#082D00]">Explore</span>
                     </button>
 
-                    <!-- CampusAround Logo -->
-                    <a href="{{ route('home') }}" class="group flex items-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#082D00] rounded-xl p-1">
-                        <span class="w-10 h-10 rounded-xl bg-[#082D00] text-[#9BE96B] flex items-center justify-center font-black text-xl shadow-sm transition-transform duration-200 group-hover:scale-105">
-                            <svg class="w-6 h-6 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <!-- CampusAround Logo with IIT Patna Subtitle -->
+                    <a href="{{ route('home') }}" class="group flex items-center gap-2.5 sm:gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#082D00] rounded-xl p-1">
+                        <span class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#082D00] text-[#9BE96B] flex items-center justify-center font-black text-xl shadow-sm transition-transform duration-200 group-hover:scale-105 shrink-0">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="9"/>
                                 <path d="m14.5 9.5-5 5"/>
                                 <path d="M12 3v3"/>
@@ -45,37 +46,19 @@
                             </svg>
                         </span>
                         <div class="flex flex-col">
-                            <span class="font-extrabold text-xl tracking-tight text-[#082D00] leading-none">CampusAround</span>
-                            <span class="text-[10px] uppercase tracking-wider font-semibold text-[#64705D] mt-0.5">IIT Patna</span>
+                            <span class="font-extrabold text-lg sm:text-xl tracking-tight text-[#082D00] leading-none">CampusAround</span>
+                            <span class="text-[10px] uppercase tracking-wider font-bold text-[#64705D] mt-0.5">IIT Patna</span>
                         </div>
                     </a>
                 </div>
 
-                <!-- Center/Right: Quick 4 Discovery Links on Desktop -->
-                <nav class="hidden md:flex items-center gap-1 lg:gap-2">
-                    <a href="{{ route('inside') }}" 
-                       class="px-3.5 py-2 rounded-full text-xs font-bold transition-all {{ $currentRoute === 'inside' ? 'bg-[#082D00] text-white shadow-xs' : 'text-[#082D00] hover:bg-black/5' }}">
-                        Inside Tour
-                    </a>
-                    <a href="{{ route('outside') }}" 
-                       class="px-3.5 py-2 rounded-full text-xs font-bold transition-all {{ $currentRoute === 'outside' ? 'bg-[#082D00] text-white shadow-xs' : 'text-[#082D00] hover:bg-black/5' }}">
-                        Outside Tour
-                    </a>
-                    <a href="{{ route('locate') }}" 
-                       class="px-3.5 py-2 rounded-full text-xs font-bold transition-all {{ $currentRoute === 'locate' ? 'bg-[#082D00] text-white shadow-xs' : 'text-[#082D00] hover:bg-black/5' }}">
-                        Locate
-                    </a>
-                    <a href="{{ route('contribute') }}" 
-                       class="px-3.5 py-2 rounded-full text-xs font-bold transition-all {{ $currentRoute === 'contribute' ? 'bg-[#082D00] text-white shadow-xs' : 'text-[#082D00] hover:bg-black/5' }}">
-                        Contribute
-                    </a>
-                </nav>
+                <!-- Center: Clean, spacious, NO duplicate discovery links! -->
 
-                <!-- Far Right Action -->
-                <div class="flex items-center gap-2">
+                <!-- Right: Navigate Button -->
+                <div class="flex items-center">
                     <a href="{{ route('locate') }}" 
-                       class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-extrabold bg-[#082D00] text-[#9BE96B] hover:bg-[#134504] active:scale-95 transition-all shadow-sm">
-                        <svg class="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                       class="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-extrabold bg-[#082D00] text-[#9BE96B] hover:bg-[#134504] active:scale-95 transition-all shadow-sm">
+                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <polygon points="3 11 22 2 13 21 11 13 3 11"/>
                         </svg>
                         <span>Navigate</span>
@@ -155,7 +138,6 @@
                    @click="navDrawerOpen = false"
                    class="group flex items-start gap-4 p-3.5 rounded-2xl transition-all duration-150 {{ $currentRoute === 'inside' ? 'bg-[#9BE96B] text-[#082D00] font-black shadow-xs' : 'text-[#082D00] hover:bg-[#F7F7F2]' }}">
                     <span class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors {{ $currentRoute === 'inside' ? 'bg-[#082D00] text-[#9BE96B]' : 'bg-[#F7F7F2] text-[#082D00] group-hover:bg-[#9BE96B]' }}">
-                        <!-- Lucide Building / Landmark SVG -->
                         <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect width="16" height="20" x="4" y="2" rx="2" ry="2"/>
                             <path d="M9 22v-4h6v4"/>
@@ -163,13 +145,11 @@
                             <path d="M16 6h.01"/>
                             <path d="M8 10h.01"/>
                             <path d="M16 10h.01"/>
-                            <path d="M8 14h.01"/>
-                            <path d="M16 14h.01"/>
                         </svg>
                     </span>
                     <div>
                         <span class="font-extrabold text-base tracking-tight block leading-snug">Inside Tour</span>
-                        <span class="text-xs text-[#64705D] block mt-0.5 font-medium leading-tight">Explore real academic blocks, library, sports & hostels</span>
+                        <span class="text-xs text-[#64705D] block mt-0.5 font-medium leading-tight">Explore campus buildings, facilities, and student spaces.</span>
                     </div>
                 </a>
 
@@ -178,17 +158,15 @@
                    @click="navDrawerOpen = false"
                    class="group flex items-start gap-4 p-3.5 rounded-2xl transition-all duration-150 {{ $currentRoute === 'outside' ? 'bg-[#9BE96B] text-[#082D00] font-black shadow-xs' : 'text-[#082D00] hover:bg-[#F7F7F2]' }}">
                     <span class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors {{ $currentRoute === 'outside' ? 'bg-[#082D00] text-[#9BE96B]' : 'bg-[#F7F7F2] text-[#082D00] group-hover:bg-[#9BE96B]' }}">
-                        <!-- Lucide Store / Coffee SVG -->
                         <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/>
                             <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
                             <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/>
-                            <path d="M2 7h20"/>
                         </svg>
                     </span>
                     <div>
                         <span class="font-extrabold text-base tracking-tight block leading-snug">Outside Tour</span>
-                        <span class="text-xs text-[#64705D] block mt-0.5 font-medium leading-tight">Nearby dhabas, cafes, grocery & local Bihta hubs</span>
+                        <span class="text-xs text-[#64705D] block mt-0.5 font-medium leading-tight">Discover nearby food, cafes, shops, and useful services.</span>
                     </div>
                 </a>
 
@@ -197,14 +175,13 @@
                    @click="navDrawerOpen = false"
                    class="group flex items-start gap-4 p-3.5 rounded-2xl transition-all duration-150 {{ $currentRoute === 'locate' ? 'bg-[#9BE96B] text-[#082D00] font-black shadow-xs' : 'text-[#082D00] hover:bg-[#F7F7F2]' }}">
                     <span class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors {{ $currentRoute === 'locate' ? 'bg-[#082D00] text-[#9BE96B]' : 'bg-[#F7F7F2] text-[#082D00] group-hover:bg-[#9BE96B]' }}">
-                        <!-- Lucide Navigation SVG -->
                         <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polygon points="3 11 22 2 13 21 11 13 3 11"/>
                         </svg>
                     </span>
                     <div>
                         <span class="font-extrabold text-base tracking-tight block leading-snug">Locate</span>
-                        <span class="text-xs text-[#64705D] block mt-0.5 font-medium leading-tight">Apple-inspired live navigation & route directions</span>
+                        <span class="text-xs text-[#64705D] block mt-0.5 font-medium leading-tight">Choose a destination and explore your route.</span>
                     </div>
                 </a>
 
@@ -213,7 +190,6 @@
                    @click="navDrawerOpen = false"
                    class="group flex items-start gap-4 p-3.5 rounded-2xl transition-all duration-150 {{ $currentRoute === 'contribute' ? 'bg-[#9BE96B] text-[#082D00] font-black shadow-xs' : 'text-[#082D00] hover:bg-[#F7F7F2]' }}">
                     <span class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors {{ $currentRoute === 'contribute' ? 'bg-[#082D00] text-[#9BE96B]' : 'bg-[#F7F7F2] text-[#082D00] group-hover:bg-[#9BE96B]' }}">
-                        <!-- Lucide Plus Circle SVG -->
                         <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"/>
                             <path d="M8 12h8"/>
@@ -222,7 +198,7 @@
                     </span>
                     <div>
                         <span class="font-extrabold text-base tracking-tight block leading-snug">Contribute</span>
-                        <span class="text-xs text-[#64705D] block mt-0.5 font-medium leading-tight">Share missing student places and campus spots</span>
+                        <span class="text-xs text-[#64705D] block mt-0.5 font-medium leading-tight">Share a useful place with the campus community.</span>
                     </div>
                 </a>
             </div>
@@ -230,13 +206,13 @@
             <!-- Secondary Links -->
             <div class="px-6 py-4 border-t border-[#E5E7E1] space-y-1">
                 <div class="text-[11px] font-black uppercase tracking-widest text-[#64705D] px-2 mb-2">
-                    Browse & Info
+                    Directory & Info
                 </div>
                 <a href="{{ route('explore') }}" 
                    @click="navDrawerOpen = false"
                    class="flex items-center justify-between px-3 py-2.5 rounded-xl font-bold text-sm text-[#082D00] hover:bg-[#F7F7F2] transition-colors">
                     <span>Directory Index</span>
-                    <span class="text-xs text-[#64705D] font-normal">All 22 Places</span>
+                    <span class="text-xs text-[#64705D] font-normal">All Places</span>
                 </a>
                 <a href="{{ route('about') }}" 
                    @click="navDrawerOpen = false"
