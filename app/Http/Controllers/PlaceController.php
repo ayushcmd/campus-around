@@ -9,16 +9,68 @@ class PlaceController extends Controller
 {
     public function home()
     {
-        $categories = PlaceRepository::getCategories();
-        $campusPlaces = PlaceRepository::getCampusPlaces();
-        $nearbyPlaces = PlaceRepository::getNearbyPlaces();
+        $insidePlaces = PlaceRepository::getInsidePlaces();
+        $outsidePlaces = PlaceRepository::getOutsidePlaces();
         $allPlaces = PlaceRepository::getAllPlaces();
+        $categories = PlaceRepository::getCategories();
 
         return view('pages.home', [
             'categories' => $categories,
-            'campusPlaces' => $campusPlaces,
-            'nearbyPlaces' => $nearbyPlaces,
+            'campusPlaces' => $insidePlaces,
+            'nearbyPlaces' => $outsidePlaces,
             'allPlaces' => $allPlaces,
+        ]);
+    }
+
+    public function inside(Request $request)
+    {
+        $categories = PlaceRepository::getInsideCategories();
+        $places = PlaceRepository::getInsidePlaces();
+        $selectedCategory = $request->query('category', 'all');
+        $searchQuery = $request->query('q', '');
+
+        return view('pages.inside', [
+            'categories' => $categories,
+            'places' => $places,
+            'initialCategory' => $selectedCategory,
+            'initialSearch' => $searchQuery,
+        ]);
+    }
+
+    public function outside(Request $request)
+    {
+        $categories = PlaceRepository::getOutsideCategories();
+        $places = PlaceRepository::getOutsidePlaces();
+        $selectedCategory = $request->query('category', 'all');
+        $searchQuery = $request->query('q', '');
+
+        return view('pages.outside', [
+            'categories' => $categories,
+            'places' => $places,
+            'initialCategory' => $selectedCategory,
+            'initialSearch' => $searchQuery,
+        ]);
+    }
+
+    public function locate(Request $request)
+    {
+        $insidePlaces = PlaceRepository::getInsidePlaces();
+        $outsidePlaces = PlaceRepository::getOutsidePlaces();
+        $allPlaces = PlaceRepository::getAllPlaces();
+
+        // Optional pre-selected start or destination slug/id
+        $startSlug = $request->query('start');
+        $destSlug = $request->query('destination');
+
+        $initialStart = $startSlug ? PlaceRepository::findPlaceBySlug($startSlug) : null;
+        $initialDest = $destSlug ? PlaceRepository::findPlaceBySlug($destSlug) : null;
+
+        return view('pages.locate', [
+            'insidePlaces' => $insidePlaces,
+            'outsidePlaces' => $outsidePlaces,
+            'allPlaces' => $allPlaces,
+            'initialStart' => $initialStart,
+            'initialDest' => $initialDest,
         ]);
     }
 

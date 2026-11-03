@@ -1,16 +1,16 @@
 <x-app-layout :nav-theme="'light'">
-    <x-slot name="title">{{ $place['name'] }} — CampusAround IIT Patna</x-slot>
+    <x-slot name="title">{{ $place['name'] }} — CampusAround (IIT Patna)</x-slot>
 
-    <div class="py-10 sm:py-16">
+    <div class="py-8 sm:py-14">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <!-- Breadcrumbs -->
             <nav class="flex items-center gap-2 text-xs font-semibold text-[#64705D] mb-6 sm:mb-8" aria-label="Breadcrumb">
                 <a href="{{ route('home') }}" class="hover:text-[#082D00]">Home</a>
                 <span>/</span>
-                <a href="{{ route('explore') }}" class="hover:text-[#082D00]">Explore</a>
-                <span>/</span>
-                <a href="{{ route('explore', ['category' => $place['category_id']]) }}" class="hover:text-[#082D00]">{{ $place['category'] }}</a>
+                <a href="{{ $place['is_campus'] ? route('inside') : route('outside') }}" class="hover:text-[#082D00]">
+                    {{ $place['is_campus'] ? 'Inside Tour' : 'Outside Tour' }}
+                </a>
                 <span>/</span>
                 <span class="text-[#082D00] truncate max-w-xs">{{ $place['name'] }}</span>
             </nav>
@@ -23,18 +23,16 @@
                     <div>
                         <!-- Badges -->
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider {{ $place['is_campus'] ? 'bg-[#082D00] text-white' : 'bg-[#9BE96B] text-[#082D00]' }}">
-                                {{ $place['is_campus'] ? 'On Campus' : 'Nearby Bihta' }}
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider {{ $place['is_campus'] ? 'bg-[#082D00] text-white' : 'bg-[#9BE96B] text-[#082D00]' }}">
+                                {{ $place['is_campus'] ? 'Inside Campus' : 'Nearby Bihta' }}
                             </span>
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-white text-[#64705D] border border-[#E5E7E1]">
                                 {{ $place['category'] }}
                             </span>
-                            @if(!empty($place['status_indicator']))
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#9BE96B]/20 text-[#082D00]">
-                                    <span class="w-2 h-2 rounded-full bg-[#164606]"></span>
-                                    {{ $place['status_indicator'] }}
-                                </span>
-                            @endif
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#9BE96B]/25 text-[#082D00]">
+                                <span class="w-2 h-2 rounded-full bg-[#164606]"></span>
+                                {{ $place['verification_status'] }}
+                            </span>
                         </div>
 
                         <!-- Place Title -->
@@ -54,9 +52,9 @@
                              alt="{{ $place['name'] }}" 
                              class="w-full h-full object-cover">
                         <div class="absolute bottom-4 left-4">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/75 text-white text-xs font-bold backdrop-blur-md">
-                                <svg class="w-3.5 h-3.5 text-[#9BE96B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                                {{ $place['location_label'] }}
+                            <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/75 text-white text-xs font-bold backdrop-blur-xs">
+                                <svg class="w-3.5 h-3.5 text-[#9BE96B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                                {{ $place['address'] ?? $place['campus_area'] }}
                             </span>
                         </div>
                     </div>
@@ -68,9 +66,9 @@
                             {{ $place['description'] }}
                         </p>
 
-                        <!-- Tags / Amenities -->
+                        <!-- Highlights & Tags -->
                         <div class="pt-4 border-t border-[#E5E7E1]">
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-[#64705D] mb-3">Key Highlights & Amenities</h4>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-[#64705D] mb-3">Key Highlights & Features</h4>
                             <div class="flex flex-wrap gap-2">
                                 @foreach($place['tags'] as $tag)
                                     <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#F7F7F2] text-[#082D00] text-xs font-bold border border-[#E5E7E1]">
@@ -79,6 +77,14 @@
                                     </span>
                                 @endforeach
                             </div>
+                        </div>
+
+                        <!-- Source Citation -->
+                        <div class="pt-4 border-t border-[#E5E7E1] bg-[#F7F7F2] -mx-6 sm:-mx-8 -mb-6 sm:-mb-8 p-4 sm:p-6 rounded-b-3xl">
+                            <span class="text-xs font-bold uppercase text-[#082D00] block mb-1">Source & Verification</span>
+                            <p class="text-xs text-[#64705D] leading-relaxed">
+                                {{ $place['source'] }}
+                            </p>
                         </div>
                     </div>
 
@@ -96,35 +102,33 @@
                         <!-- Hours -->
                         <div class="flex items-start gap-4">
                             <span class="w-10 h-10 rounded-2xl bg-[#F7F7F2] text-[#082D00] flex items-center justify-center shrink-0 border border-[#E5E7E1]">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
                             </span>
                             <div>
                                 <span class="text-xs font-bold uppercase tracking-wider text-[#64705D]">Hours</span>
-                                <p class="text-sm font-bold text-[#082D00] mt-0.5">{{ $place['hours'] }}</p>
-                                <span class="text-[11px] text-[#64705D]">Student community verified demo data</span>
+                                <p class="text-sm font-bold text-[#082D00] mt-0.5">{{ $place['hours'] ?? 'Consult facility notice' }}</p>
                             </div>
                         </div>
 
-                        <!-- Distance from Core -->
+                        <!-- Proximity / Area -->
                         <div class="flex items-start gap-4">
                             <span class="w-10 h-10 rounded-2xl bg-[#F7F7F2] text-[#082D00] flex items-center justify-center shrink-0 border border-[#E5E7E1]">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                             </span>
                             <div>
-                                <span class="text-xs font-bold uppercase tracking-wider text-[#64705D]">Proximity</span>
-                                <p class="text-sm font-bold text-[#082D00] mt-0.5">{{ $place['distance'] }}</p>
-                                <p class="text-[11px] text-[#64705D]">{{ $place['location_label'] }}</p>
+                                <span class="text-xs font-bold uppercase tracking-wider text-[#64705D]">Campus Area</span>
+                                <p class="text-sm font-bold text-[#082D00] mt-0.5">{{ $place['campus_area'] }}</p>
+                                <p class="text-[11px] text-[#64705D] mt-0.5">{{ $place['address'] }}</p>
                             </div>
                         </div>
 
-                        <!-- Directions Action Button -->
+                        <!-- Live Route Button (Hooks into /locate) -->
                         <div class="pt-2">
-                            <button type="button" 
-                                    onclick="alert('Directions navigation preview: IIT Patna Bihta Campus (Coordinates: {{ $place['coordinates'][0] }}, {{ $place['coordinates'][1] }}). In production this opens navigation apps.')"
-                                    class="w-full py-3.5 px-6 rounded-full bg-[#082D00] text-white font-bold text-sm hover:bg-[#134504] active:scale-95 transition-all shadow-sm flex items-center justify-center gap-2">
-                                <svg class="w-4 h-4 text-[#9BE96B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 20l-5.447-2.724A2 2 0 013 15.485V5.515a2 2 0 011.553-1.954L9 2m0 18l6-3m-6 3V2m6 15l5.447 2.724A2 2 0 0021 17.938V7.967a2 2 0 00-1.553-1.954L15 4m0 13V4m0 0L9 2"/></svg>
-                                <span>Get Directions (Preview)</span>
-                            </button>
+                            <a href="{{ route('locate', ['destination' => $place['slug']]) }}"
+                               class="w-full py-3.5 px-6 rounded-full bg-[#082D00] text-white font-black text-sm hover:bg-[#134504] active:scale-95 transition-all shadow-sm flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4 text-[#9BE96B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                                <span>Navigate to this Spot in Locate</span>
+                            </a>
                         </div>
                     </div>
 
@@ -132,7 +136,7 @@
                     <div class="bg-white rounded-3xl p-4 border border-[#E5E7E1] shadow-sm">
                         <div class="flex items-center justify-between mb-3 px-2">
                             <span class="text-xs font-bold uppercase tracking-wider text-[#082D00]">Spot Location</span>
-                            <span class="text-[11px] text-[#64705D]">{{ $place['coordinates'][0] }}°N, {{ $place['coordinates'][1] }}°E</span>
+                            <span class="text-[11px] text-[#64705D]">{{ $place['latitude'] }}°N, {{ $place['longitude'] }}°E</span>
                         </div>
                         <div id="place-detail-map" class="w-full h-56 rounded-2xl overflow-hidden border border-[#E5E7E1] z-10"></div>
                     </div>
@@ -149,7 +153,7 @@
                             <span class="text-xs font-extrabold uppercase tracking-wider text-[#64705D]">More to explore</span>
                             <h2 class="text-2xl sm:text-3xl font-black uppercase text-[#082D00]">Similar places around campus</h2>
                         </div>
-                        <a href="{{ route('explore') }}" class="text-sm font-bold text-[#082D00] hover:underline">
+                        <a href="{{ $place['is_campus'] ? route('inside') : route('outside') }}" class="text-sm font-bold text-[#082D00] hover:underline">
                             Browse all &rarr;
                         </a>
                     </div>
@@ -169,7 +173,7 @@
     @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const coords = @json($place['coordinates']);
+            const coords = [{{ $place['latitude'] }}, {{ $place['longitude'] }}];
             const map = L.map('place-detail-map', {
                 center: coords,
                 zoom: 16,
@@ -185,8 +189,8 @@
                 className: 'custom-single-pin',
                 html: `
                     <div style="
-                        background-color: {{ $place['is_campus'] ? '#082D00' : '#86D953' }};
-                        color: {{ $place['is_campus'] ? '#FFFFFF' : '#082D00' }};
+                        background-color: {{ $place['is_campus'] ? '#082D00' : '#9BE96B' }};
+                        color: {{ $place['is_campus'] ? '#9BE96B' : '#082D00' }};
                         width: 32px;
                         height: 32px;
                         border-radius: 9999px;
@@ -208,7 +212,7 @@
 
             L.marker(coords, { icon: customIcon })
              .addTo(map)
-             .bindPopup("<strong>{{ $place['name'] }}</strong><br>{{ $place['location_label'] }}")
+             .bindPopup("<strong>{{ $place['name'] }}</strong><br>{{ $place['campus_area'] }}")
              .openPopup();
         });
     </script>

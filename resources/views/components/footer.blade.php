@@ -32,11 +32,11 @@
             <div>
                 <h3 class="text-xs font-bold uppercase tracking-wider text-[#9BE96B] mb-4">Discovery</h3>
                 <ul class="space-y-3 text-sm font-medium text-white/80">
-                    <li><a href="{{ route('explore') }}" class="hover:text-[#9BE96B] transition-colors">All Places</a></li>
-                    <li><a href="{{ route('explore', ['type' => 'campus']) }}" class="hover:text-[#9BE96B] transition-colors">Campus Facilities</a></li>
-                    <li><a href="{{ route('explore', ['category' => 'food-drinks']) }}" class="hover:text-[#9BE96B] transition-colors">Food & Canteens</a></li>
-                    <li><a href="{{ route('explore', ['category' => 'cafes']) }}" class="hover:text-[#9BE96B] transition-colors">Coffee & Study Cafes</a></li>
-                    <li><a href="{{ route('explore', ['type' => 'nearby']) }}" class="hover:text-[#9BE96B] transition-colors">Bihta Neighborhood</a></li>
+                    <li><a href="{{ route('inside') }}" class="hover:text-[#9BE96B] transition-colors">Inside Tour (Campus)</a></li>
+                    <li><a href="{{ route('outside') }}" class="hover:text-[#9BE96B] transition-colors">Outside Tour (Bihta)</a></li>
+                    <li><a href="{{ route('locate') }}" class="hover:text-[#9BE96B] transition-colors">Locate & Directions</a></li>
+                    <li><a href="{{ route('contribute') }}" class="hover:text-[#9BE96B] transition-colors">Contribute Spot</a></li>
+                    <li><a href="{{ route('explore') }}" class="hover:text-[#9BE96B] transition-colors">Directory Index</a></li>
                 </ul>
             </div>
 

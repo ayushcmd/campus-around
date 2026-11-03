@@ -6,69 +6,101 @@ use Tests\TestCase;
 
 class CampusAroundRoutesTest extends TestCase
 {
-    public function test_homepage_loads_successfully(): void
+    public function test_homepage_loads_successfully_with_four_discovery_options(): void
     {
         $response = $this->get('/');
 
         $response->assertStatus(200);
         $response->assertSee('CampusAround');
-        $response->assertSee('Central Library');
-        $response->assertSee('IIT Patna Campus');
+        $response->assertSee('Inside Tour');
+        $response->assertSee('Outside Tour');
+        $response->assertSee('Locate');
+        $response->assertSee('Contribute');
+        $response->assertSee('Search campus buildings');
     }
 
-    public function test_explore_page_loads_successfully(): void
+    public function test_inside_tour_page_loads_with_real_campus_facilities(): void
     {
-        $response = $this->get('/explore');
+        $response = $this->get('/inside');
 
         $response->assertStatus(200);
-        $response->assertSee('EXPLORE ALL PLACES');
+        $response->assertSee('INSIDE TOUR');
         $response->assertSee('Central Library');
-        $response->assertSee('Campus Facilities');
+        $response->assertSee('Tutorial');
+        $response->assertSee('Block IX');
+        $response->assertSee('Aryabhatta');
+        $response->assertSee('Verified');
+        $response->assertSee('inside-campus-map');
     }
 
-    public function test_explore_page_with_query_params(): void
+    public function test_outside_tour_page_loads_with_real_nearby_spots(): void
     {
-        $response = $this->get('/explore?category=food-drinks&type=nearby');
+        $response = $this->get('/outside');
 
         $response->assertStatus(200);
-        $response->assertSee('EXPLORE ALL PLACES');
+        $response->assertSee('OUTSIDE TOUR');
+        $response->assertSee('Bihari Thaath');
+        $response->assertSee('Bihta Railway Station');
+        $response->assertSee('Angeethi Cafe');
+        $response->assertSee('outside-area-map');
     }
 
-    public function test_campus_place_detail_page(): void
+    public function test_locate_page_loads_with_routing_controls(): void
+    {
+        $response = $this->get('/locate');
+
+        $response->assertStatus(200);
+        $response->assertSee('WHERE DO YOU WANT TO GO?');
+        $response->assertSee('Starting Point');
+        $response->assertSee('Destination');
+        $response->assertSee('Use my current location');
+        $response->assertSee('Show Route & Directions', false);
+        $response->assertSee('locate-map');
+    }
+
+    public function test_locate_page_with_destination_query_parameter(): void
+    {
+        $response = $this->get('/locate?destination=central-library');
+
+        $response->assertStatus(200);
+        $response->assertSee('WHERE DO YOU WANT TO GO?');
+    }
+
+    public function test_place_details_page_loads_with_source_attribution(): void
     {
         $response = $this->get('/places/central-library');
 
         $response->assertStatus(200);
         $response->assertSee('Central Library');
-        $response->assertSee('Inside Campus');
-        $response->assertSee('About this spot');
-        $response->assertSee('Similar places around campus');
+        $response->assertSee('Source & Verification', false);
+        $response->assertSee('Navigate to this Spot in Locate');
+        $response->assertSee('place-detail-map');
     }
 
-    public function test_nearby_place_detail_page(): void
+    public function test_nearby_place_details_loads_correctly(): void
     {
-        $response = $this->get('/places/gate-1-hot-momos');
+        $response = $this->get('/places/bihari-thaath-restaurant');
 
         $response->assertStatus(200);
-        $response->assertSee('Gate 1 Hot Momos');
-        $response->assertSee('Outside Campus');
+        $response->assertSee('Bihari Thaath');
+        $response->assertSee('Bihta-Kanpa Road');
     }
 
     public function test_nonexistent_place_returns_404(): void
     {
-        $response = $this->get('/places/unknown-random-spot');
+        $response = $this->get('/places/invalid-imaginary-spot');
 
         $response->assertStatus(404);
     }
 
-    public function test_contribute_page_loads_successfully(): void
+    public function test_contribute_page_loads_with_foundation_preview_notice(): void
     {
         $response = $this->get('/contribute');
 
         $response->assertStatus(200);
-        $response->assertSee('ADD A SPOT TO CAMPUSAROUND');
-        $response->assertSee('Foundation Preview Mode');
-        $response->assertSee('Place Details');
+        $response->assertSee("KNOW A PLACE WE'RE MISSING?", false);
+        $response->assertSee('Frontend Foundation Only');
+        $response->assertSee('Place Photos (Max 3)');
     }
 
     public function test_about_page_loads_successfully(): void
@@ -78,6 +110,5 @@ class CampusAroundRoutesTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('About CampusAround');
         $response->assertSee('The Bihta Campus Reality');
-        $response->assertSee('Phase 1: Project Foundation');
     }
 }

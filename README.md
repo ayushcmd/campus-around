@@ -1,190 +1,133 @@
-# CampusAround — Campus & Neighborhood Discovery Platform
+# CampusAround — Mobile-First Navigation, Real Campus Data & Apple-Inspired Live Map
 
 > **"Discover your campus and what's around."**  
-> *Initial target campus: IIT Patna (Bihta)*
+> *Target Campus: Indian Institute of Technology Patna (Bihta, Bihar, India)*
 
-CampusAround is a modern, student-focused discovery platform helping students uncover campus facilities, nearby street food stalls, cafes, grocery shops, restaurants, transportation hubs, and hidden spots around campus.
-
-Inspired by the visual design language of **Wise**, CampusAround pairs a bright lime green identity with dark forest green typography, generous whitespace, spacious responsive grids, and high-contrast, uncluttered components.
+CampusAround is a modern campus and neighborhood discovery platform built for the student community of IIT Patna. The platform pairs a Wise-inspired high-contrast visual design language (Primary Lime `#9BE96B`, Dark Forest Green `#082D00`, Warm Background `#F7F7F2`) with an Apple-Maps-inspired spatial navigation experience.
 
 ---
 
-## 🎨 Visual Identity & Color System
+## 🚀 Key Features Implemented
 
-| Token | Hex Code | Role & Usage |
+### 1. Left-Side Navigation Drawer
+- **Desktop & Mobile:** Accessible from the menu hamburger button on the left of the navbar.
+- **Smooth Drawer Transition:** Slides smoothly from the left of the screen with a subtle backdrop overlay.
+- **Core Navigation Structure:** Exactly houses the four primary discovery modes:
+  1. **Inside Tour (`/inside`)** — Building icon (Lucide SVG)
+  2. **Outside Tour (`/outside`)** — Store icon (Lucide SVG)
+  3. **Locate (`/locate`)** — Navigation arrow icon (Lucide SVG)
+  4. **Contribute (`/contribute`)** — Plus-circle icon (Lucide SVG)
+- **Accessibility:** Closes on navigation click, backdrop click, or pressing the `Escape` key.
+
+### 2. Homepage: Prominent Search & Four Discovery Options
+- **Layout Hierarchy:**
+  1. Navbar with left-side menu trigger
+  2. Bold Hero Heading (`DISCOVER YOUR CAMPUS AND WHAT'S AROUND.`)
+  3. Prominent Search Bar with live autocomplete against verified place names, categories, and landmarks
+  4. **Four Discovery Options** positioned directly **BELOW** the search bar:
+     - **Desktop:** 4-card horizontal row with interactive hover and active indicators
+     - **Mobile:** 2x2 responsive grid optimized for one-tap mobile navigation
+  5. Category exploration and campus preview below
+
+### 3. Inside Tour — Real IIT Patna Campus Data (`/inside`)
+- **Verified Public Sources:** Researched from official IIT Patna websites (`iitp.ac.in`), institute infrastructure reports, and OpenStreetMap.
+- **Real Facilities Included:**
+  - *Central Library (IIT Patna)*
+  - *Tutorial & Lecture Hall Complex (Block IX)*
+  - *Academic Blocks (Blocks I–VI, Engineering & Sciences)*
+  - *Main Administrative Building (Directorate & Registrar)*
+  - *Main Auditorium & Senate Hall*
+  - *Boys Hostel Complex (Aryabhatta, Kalam & Raman Blocks)*
+  - *Asima Girls' Hostel*
+  - *Gymkhana & Sports Arena*
+  - *Student Activity Centre (SAC) & Campus Food Court*
+  - *Institute Health Centre*
+  - *Campus Guest House*
+  - *Main Campus Gate 1 & Security Gatehouse*
+- **Features:** Category filtering (Academic, Library, Hostel, Auditorium, Sports, Food, Administration, Other), live Leaflet map with campus pins, card grid view, source citation on each card, and "Locate on Map" one-click action.
+
+### 4. Outside Tour — Real Nearby Places Around IIT Patna (`/outside`)
+- **Target Radius:** Approximately 2–3 km around the Bihta campus perimeter and along Bihta-Kanpa Road / Bihta Chauraha.
+- **Verified Real Nearby Places:**
+  - *Bihari Thaath (Bt) Restaurant* (~750m from Gate 1)
+  - *BB Kitchen* (~850m from Gate 1)
+  - *Angeethi Cafe (Raghopur)* (~1.2 km)
+  - *Discovery Food Plaza* (~1.5 km)
+  - *Lemons Spice Palace* (~1.8 km)
+  - *High Q Food Court (Giri Baba Market)* (~1.9 km)
+  - *Bihta Railway Station (BTA)* (~3.8 km)
+  - *Bihta Auto & Bus Stand (Chowk)* (~2.0 km)
+  - *Kisan Medical & Pharmacy Store* (~1.6 km)
+  - *Bihta Super Market & General Store* (~1.5 km)
+- **Features:** Verified sources (OpenStreetMap and local business listings), no fabricated hours or fake reviews, list/map view switcher, and direct routing links.
+
+### 5. Locate — Apple-Inspired Live Location & Directions (`/locate`)
+- **Minimal Apple-Style Presentation:** Split-view layout (desktop: left direction controls + right interactive map; mobile: prominent map with collapsible directions card).
+- **Starting Point & Destination Selection:**
+  - Choose start location from inside/outside dropdown or map click
+  - Choose destination from inside/outside dropdown, search, or map click
+  - Pre-selected route support via query param (e.g. `/locate?destination=central-library`)
+- **Strict Location Permission Workflow:**
+  - **No automatic GPS requests:** Geolocation is *never* requested on page load.
+  - User must explicitly click `"Use my current location"`.
+  - Explanatory modal explains privacy and local usage before invoking `navigator.geolocation`.
+  - Graceful fallback: If denied or unavailable, clear explanation is shown while keeping manual location selection fully functional.
+- **Real Routing Engine (OSRM & OpenStreetMap):**
+  - Connects to Open Source Routing Machine (`router.project-osrm.org`) for real road/footpath routing.
+  - Supports **Walking** (`foot`), **Driving** (`car`), and **Cycling** (`bike`).
+  - Calculates real distance (e.g., `850 m`, `1.4 km`) and road duration (e.g., `12 min`). Never reports straight-line distance as road walking distance.
+  - Plots GeoJSON route lines on the Leaflet map.
+  - Turn-by-turn maneuvers list.
+  - External fallback link to Google Maps navigation if routing is unreachable.
+
+### 6. Contribute — Foundation UI (`/contribute`)
+- Notice banner clarifying that database submission is in preview mode and not yet connected to a server.
+- Place name, category, inside/outside zone, description, and location landmark fields.
+- Client-side photo selector supporting up to 3 image previews with remove buttons.
+- Form validation preserves entered fields and displays clear message rather than feigning backend success.
+
+---
+
+## 🎨 Color Palette & Design System
+
+| Token | Hex Code | Purpose |
 | :--- | :--- | :--- |
-| **Primary Lime Green** | `#9BE96B` | Hero section background, active category states, badges, CTA highlights |
-| **Dark Forest Green** | `#082D00` | High-contrast headlines, primary buttons, brand icon, footer background |
-| **Warm Background** | `#F7F7F2` | Main website canvas, alternating sections, secondary backgrounds |
-| **Pure White** | `#FFFFFF` | Cards, search surfaces, dropdown menus, content panels |
-| **Secondary Text** | `#64705D` | Subtitles, helper text, distances, hours, and metadata |
-| **Border** | `#E5E7E1` | Card outlines, dividers, clean structural borders |
-
-Typography is powered by clean modern sans-serif fonts (**Inter** and **Manrope**) loaded with responsive scale (desktop hero ~82px, section headings 36–48px).
+| **Primary Lime** | `#9BE96B` | Hero canvas, active discovery cards, brand highlights, route accents |
+| **Forest Green** | `#082D00` | Bold headlines, primary buttons, brand icon, route polyline, footer |
+| **Warm Canvas** | `#F7F7F2` | Base background, input backgrounds, alternating sections |
+| **Pure White** | `#FFFFFF` | Cards, drawer surfaces, search bar, modals |
+| **Secondary Text** | `#64705D` | Subheadings, sources, hours, distances |
+| **Border** | `#E5E7E1` | Minimal borders, structural dividers |
 
 ---
 
-## 🛠️ Technology Stack
+## 🧪 Automated Testing
 
-- **Backend & Application:** PHP 8.2+ / Laravel 12 / Laravel Blade templates
-- **Frontend & Styling:** Tailwind CSS v4 with custom theme tokens
-- **Lightweight Interactivity:** Alpine.js (mobile navigation drawer, live directory filtering, map interactions, form preview modal)
-- **Maps:** Leaflet & OpenStreetMap tiles (centered on IIT Patna Bihta coordinates: `25.5357° N, 84.8512° E`)
-- **Package Management:** Composer & NPM / Vite
-- **Testing:** PHPUnit / Laravel Test Suite (10 feature & unit tests)
-
----
-
-## 📂 Architecture & Project Structure
-
-```
-CampusAround/
-├── app/
-│   ├── Http/
-│   │   └── Controllers/
-│   │       └── PlaceController.php          # Handles all 5 application routes
-│   ├── Services/
-│   │   └── PlaceRepository.php              # Structured IIT Patna demo dataset & query methods
-│   └── View/
-│       └── Components/
-│           └── AppLayout.php                # Layout component wrapper
-├── resources/
-│   ├── css/
-│   │   └── app.css                          # Tailwind v4 theme, Leaflet styles, custom tokens
-│   ├── js/
-│   │   ├── app.js                           # Alpine.js, Leaflet, and Lucide bootstrapping
-│   │   └── bootstrap.js                     # Axios configuration
-│   └── views/
-│       ├── components/
-│       │   ├── button.blade.php             # Rounded pill button (primary, lime, secondary, ghost)
-│       │   ├── category-card.blade.php      # Category chip with SVG icons & counts
-│       │   ├── empty-state.blade.php        # Friendly zero-results placeholder
-│       │   ├── footer.blade.php             # Dark forest green footer with quick links
-│       │   ├── navbar.blade.php             # Responsive header with mobile Alpine.js drawer
-│       │   ├── place-card.blade.php         # White rounded card with image, badges & distance
-│       │   ├── search-input.blade.php       # Prominent white pill search interface
-│       │   └── section-heading.blade.php    # Bold uppercase heading with eyebrow badge
-│       ├── layouts/
-│       │   └── app.blade.php                # Master HTML layout
-│       └── pages/
-│           ├── home.blade.php               # Homepage (Sections A through G)
-│           ├── explore.blade.php            # Directory with live search & scope filters
-│           ├── place-details.blade.php      # Detailed place page with mini Leaflet map
-│           ├── contribute.blade.php         # Student submission form (foundation preview)
-│           └── about.blade.php              # Project story, Bihta campus background & roadmap
-├── routes/
-│   └── web.php                              # Application routes
-└── tests/
-    └── Feature/
-        └── CampusAroundRoutesTest.php       # 10 automated test cases
-```
-
----
-
-## 🚀 Implemented Pages & Features
-
-### 1. Homepage (`/`)
-- **Section A (Hero):** Bright lime green (`#9BE96B`) canvas, bold headline (`DISCOVER YOUR CAMPUS AND WHAT'S AROUND.`), prominent search bar, and quick shortcut pills.
-- **Section B (Categories):** 8 categories (Campus Facilities, Food & Drinks, Cafes, Grocery, Restaurants, Shops, Transportation, All Places).
-- **Section C (Campus Facilities):** Sample cards for Central Library, Tutorial Block 9, Senate Hall, Gymkhana, and Central Dining.
-- **Section D (Nearby Discovery):** Off-campus student spots around Gate 1 and Bihta (Momos, Study Cafes, Chai Stalls, Xerox shops).
-- **Section E (Leaflet Map):** Spatial map preview centered at IIT Patna with interactive location list; clicking any item pans to the marker and opens the popup.
-- **Section F (Community CTA):** "Know a place we're missing?" call-to-action leading to contribution.
-- **Section G (Footer):** Dark forest green minimal footer with navigation links and project disclaimer.
-
-### 2. Explore Directory (`/explore`)
-- Interactive real-time filtering with Alpine.js.
-- Location scope toggles: **All Locations**, **🏛️ Campus Only**, **📍 Nearby Only**.
-- Category filter pills with active visual state.
-- Dynamic result counter and clear-filter shortcuts.
-- Responsive empty-state design when zero results match.
-
-### 3. Place Details (`/places/{slug}`)
-- Semantic breadcrumbs navigation.
-- High-resolution place banner with proximity badges.
-- Detailed description, student highlights, and key amenities tags.
-- Operating hours and relative gate distances.
-- Interactive mini Leaflet map pinned to exact coordinates.
-- "Similar places around campus" related places grid.
-
-### 4. Contribute a Place (`/contribute`)
-- Foundation submission UI with an informational preview mode banner.
-- Form fields: Name, Category, On-Campus / Nearby selector, Description, Landmark/Directions, Hours, Distance.
-- Drag-and-drop photo upload dropzone placeholder.
-- Interactive Alpine.js submission confirmation modal with form reset.
-
-### 5. About Page (`/about`)
-- Campus background highlighting IIT Patna's 500-acre residential campus in Bihta.
-- Wise-inspired design philosophy breakdown.
-- Multi-phase project roadmap.
-
----
-
-## 💻 Local Setup & Development Instructions
-
-### Prerequisites
-- PHP 8.2 or 8.4
-- Composer 2+
-- Node.js 18+ & NPM
-
-### Installation Steps
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/AYUSHCMD-GITHUB/CampusAround.git
-   cd CampusAround
-   ```
-
-2. **Install PHP dependencies:**
-   ```bash
-   composer install
-   ```
-
-3. **Install NPM dependencies & build assets:**
-   ```bash
-   npm install
-   npm run build
-   ```
-
-4. **Environment setup:**
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   ```
-
-5. **Start the Laravel development server:**
-   ```bash
-   php artisan serve
-   ```
-   Open `http://127.0.0.1:8000` in your browser.
-
-6. **(Optional) Run Vite in watch mode during development:**
-   ```bash
-   npm run dev
-   ```
-
----
-
-## 🧪 Running Automated Tests
-
-Run the test suite using Artisan:
+All 12 feature and unit test cases pass cleanly:
 ```bash
 php artisan test
 ```
 
-All 10 test cases in `Tests\Feature\CampusAroundRoutesTest` and `Tests\Unit\ExampleTest` verify that:
-- Every route returns HTTP `200`
-- Slug routing loads the correct place details
-- Unknown slugs return HTTP `404`
-- Filter query parameters are handled without errors
+Test coverage includes:
+- Homepage hero with search bar and 4 discovery option cards
+- Inside Tour with verified IIT Patna facilities
+- Outside Tour with real Bihta businesses
+- Locate page with starting point, destination, and routing controls
+- Query parameter routing (`/locate?destination=central-library`)
+- Place details with official source attribution and direct navigation link
+- Nonexistent place 404 handling
+- Contribute page validation and preview banner
+- About page story and technical roadmap
 
 ---
 
-## 📌 Features Intentionally Deferred (Future Phases)
+## 🛠️ Local Development
 
-To preserve a lightweight, beginner-friendly architecture for the foundation:
-- **Supabase PostgreSQL Integration:** Remote database tables and migrations are planned for Phase 2.
-- **User Authentication:** Student logins, OAuth, and email verification.
-- **Storage Submissions:** Actual cloud photo upload pipelines.
-- **Admin Moderation:** Verification queues for student-contributed spots.
-- **Ratings & Reviews:** Community star ratings and comment feeds.
+```bash
+# 1. Build assets with Vite
+npm run build
+
+# 2. Run the application
+php artisan serve --port=8000
+```
+Open `http://127.0.0.1:8000` in your browser.

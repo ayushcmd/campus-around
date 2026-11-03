@@ -146,10 +146,10 @@
                                 </template>
                             </div>
 
-                            <!-- Distance -->
+                            <!-- Distance / Area -->
                             <div class="absolute bottom-3 right-3 pointer-events-none">
                                 <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-black/70 text-white backdrop-blur-sm"
-                                      x-text="place.distance">
+                                      x-text="place.campus_area || place.distance || 'IIT Patna'">
                                 </span>
                             </div>
                         </div>
@@ -171,13 +171,12 @@
                             </div>
 
                             <div class="mt-5 pt-4 border-t border-[#E5E7E1] flex items-center justify-between">
-                                <span class="text-xs text-[#64705D] flex items-center gap-1 truncate max-w-[65%]">
-                                    <svg class="w-3.5 h-3.5 text-[#082D00] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                    <span class="truncate" x-text="place.hours"></span>
-                                </span>
-                                <a :href="'/places/' + place.slug" class="inline-flex items-center gap-1 text-xs font-bold text-[#082D00] group-hover:text-[#134504]">
-                                    <span>Details</span>
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                                <a :href="'/places/' + place.slug" class="text-xs font-bold text-[#64705D] hover:text-[#082D00]">
+                                    Details
+                                </a>
+                                <a :href="'/locate?destination=' + place.slug" class="inline-flex items-center gap-1 text-xs font-extrabold px-3 py-1.5 rounded-full bg-[#9BE96B] text-[#082D00] hover:bg-[#8AE157] transition-all">
+                                    <span>Route</span>
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
                                 </a>
                             </div>
                         </div>
