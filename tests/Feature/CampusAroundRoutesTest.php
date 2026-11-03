@@ -348,4 +348,39 @@ class CampusAroundRoutesTest extends TestCase
         $response->assertSee('The Bihta Campus Reality');
         $response->assertSee('Community Guidelines & Data Policy', false);
     }
+
+    public function test_vercel_deployment_configuration_is_valid(): void
+    {
+        // 1. Verify vercel.json exists and contains correct PHP runtime & route mappings
+        $vercelJsonPath = base_path('vercel.json');
+        $this->assertFileExists($vercelJsonPath);
+
+        $vercelConfig = json_decode(file_get_contents($vercelJsonPath), true);
+        $this->assertIsArray($vercelConfig);
+        $this->assertArrayHasKey('functions', $vercelConfig);
+        $this->assertStringContainsString('vercel-php', $vercelConfig['functions']['api/index.php']['runtime']);
+        $this->assertArrayHasKey('routes', $vercelConfig);
+        $this->assertArrayHasKey('env', $vercelConfig);
+        $this->assertEquals('/tmp/views', $vercelConfig['env']['VIEW_COMPILED_PATH']);
+        $this->assertEquals('cookie', $vercelConfig['env']['SESSION_DRIVER']);
+        $this->assertEquals('array', $vercelConfig['env']['CACHE_STORE']);
+
+        // 2. Verify api/index.php exists and points to public/index.php
+        $apiIndex = base_path('api/index.php');
+        $this->assertFileExists($apiIndex);
+        $apiContent = file_get_contents($apiIndex);
+        $this->assertStringContainsString("public/index.php", $apiContent);
+        $this->assertStringContainsString("/tmp/views", $apiContent);
+
+        // 3. Verify .vercelignore exists and protects sensitive/heavy folders
+        $vercelIgnorePath = base_path('.vercelignore');
+        $this->assertFileExists($vercelIgnorePath);
+        $ignoreContent = file_get_contents($vercelIgnorePath);
+        $this->assertStringContainsString('/vendor', $ignoreContent);
+        $this->assertStringContainsString('.env', $ignoreContent);
+
+        // 4. Verify compiled Vite assets exist for production distribution
+        $manifestPath = public_path('build/manifest.json');
+        $this->assertFileExists($manifestPath);
+    }
 }
